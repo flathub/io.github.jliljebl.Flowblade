@@ -275,8 +275,10 @@
                     "sha256": "12f29d6c23424f704c66b5b68c02fe0b571504459605cfe36ab8158359b0e1bb"
                 },
                 {
-                    "type": "patch",
-                    "path": "pillow-arm-build-fix.patch"
+                    "type": "shell",
+                    "commands": [
+                        "sed -i 's/if not platform_/if not dirs/' setup.py"
+                    ]
                 }
             ],
             "cleanup": [
@@ -422,9 +424,6 @@
                     "url": "https://www.ladspa.org/download/ladspa_sdk_1.13.tgz",
                     "sha256": "b5ed3f4f253a0f6c1b7a1f4b8cf62376ca9f51d999650dd822650c43852d306b"
                 }
-            ],
-            "cleanup": [
-                "*"
             ]
         },
         {
@@ -446,6 +445,7 @@
                 "--enable-plusgpl",
                 "--enable-resample",
                 "--enable-sdl",
+                "--enable-sdl2",
                 "--enable-sox",
                 "--enable-vmfx",
                 "--enable-xml",
@@ -472,15 +472,9 @@
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/mltframework/mlt.git",
-                    "commit": "d1fabee5c837ef82ea35b92da7231a27003fecfb"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "sed -i 's/HAVE_SDL2=1/HAVE_SDL1=1/g' src/modules/sdl/configure"
-                    ]
+                    "type": "archive",
+                    "url": "https://github.com/mltframework/mlt/releases/download/v6.6.0/mlt-6.6.0.tar.gz",
+                    "sha256": "28cbc5974f72ef228d624a58809c7c8055372f5f62f5882dc055099d444b2cdd"
                 }
             ],
             "cleanup": [
