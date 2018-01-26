@@ -9,7 +9,7 @@
         "--share=ipc",
         "--socket=x11",
         "--socket=pulseaudio",
-        "--device=all",
+        "--device=dri",
         "--filesystem=host",
         "--env=FREI0R_PATH=/app/lib/frei0r-1",
         "--env=LADSPA_PATH=/app/lib/ladspa",
