@@ -137,7 +137,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://sourceforge.net/projects/sox/files/sox/14.4.2/sox-14.4.2.tar.bz2",
+                    "url": "http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2",
                     "sha256": "81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c"
                 }
             ],
@@ -334,7 +334,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz",
+                    "url": "http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz",
                     "sha256": "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
                 }
             ],
