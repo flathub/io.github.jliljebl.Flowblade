@@ -501,8 +501,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/jliljebl/flowblade/archive/v1.14.tar.gz",
-                    "sha256": "6096d6fb67ec8bb4cf422a11282bb8a38fb879ae178a1e54693870ef9ae212bf"
+                    "url": "https://github.com/jliljebl/flowblade/archive/v1.16.tar.gz",
+                    "sha256": "2b33535ca92ed6c179cf804ccc9cd742194742bdddcad0bd8c3387ca7a4327ef"
                 },
                 {
                     "type": "shell",
