@@ -2,7 +2,7 @@
     "id": "io.github.jliljebl.Flowblade",
     "branch": "stable",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.26",
+    "runtime-version": "3.28",
     "sdk": "org.gnome.Sdk",
     "command": "flowblade",
     "finish-args": [
@@ -72,8 +72,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gmic.eu/files/source/gmic_2.1.8.tar.gz",
-                    "sha256": "f22783f14cb202dec4a840733f2028f6e2c464fdd2f0166fc38943702cea6bde"
+                    "url": "https://gmic.eu/files/source/gmic_2.2.2.tar.gz",
+                    "sha256": "cce23f791c7c9f4a09ef00c4b696b29fe2ee55725cc03e9273c3da52bd900e7f"
                 },
                 {
                     "type": "shell",
@@ -98,8 +98,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://http.debian.net/debian/pool/main/m/movit/movit_1.5.3.orig.tar.gz",
-                    "sha256": "ead191d717dbefbe914260ed0335cf04a7dfc6fde8f23293c5ca7f88e45ace81"
+                    "url": "http://ftp.debian.org/debian/pool/main/m/movit/movit_1.6.2.orig.tar.gz",
+                    "sha256": "7428d56c23a38224c9333b8bb4a0c4f6b171ba64d4799c16516d40b30d0230e1"
                 },
                 {
                     "type": "file",
@@ -161,36 +161,6 @@
             ]
         },
         {
-            "name": "x265",
-            "buildsystem": "cmake-ninja",
-            "subdir": "source",
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DBUILD_STATIC_LIBS=OFF"
-            ],
-            "build-options": {
-                "arch": {
-                    "arm": {
-                        "cxxflags": "-fPIC"
-                    },
-                    "aarch64": {
-                        "cxxflags": "-fPIC"
-                    }
-                }
-            },
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://bitbucket.org/multicoreware/x265/downloads/x265_2.6.tar.gz",
-                    "sha256": "1bf0036415996af841884802161065b9e6be74f5f6808ac04831363e2549cdbf"
-                }
-            ],
-            "cleanup": [
-                "/bin",
-                "*.a"
-            ]
-        },
-        {
             "name": "ffmpeg",
             "config-opts": [
                 "--enable-gpl",
@@ -203,8 +173,7 @@
                 "--enable-libopus",
                 "--enable-librsvg",
                 "--enable-libvpx",
-                "--enable-libx264",
-                "--enable-libx265"
+                "--enable-libx264"
             ],
             "sources": [
                 {
@@ -429,42 +398,10 @@
         {
             "name": "mlt",
             "config-opts": [
-                "--swig-languages=python",
                 "--enable-gpl",
                 "--enable-gpl3",
-                "--enable-avformat",
-                "--enable-core",
-                "--enable-feeds",
-                "--enable-frei0r",
-                "--enable-lumas",
-                "--enable-motion_est",
-                "--enable-normalize",
-                "--enable-oldfilm",
-                "--enable-opengl",
-                "--enable-plus",
-                "--enable-plusgpl",
-                "--enable-resample",
-                "--enable-sdl",
-                "--enable-sdl2",
-                "--enable-sox",
-                "--enable-vmfx",
-                "--enable-xml",
-                "--enable-kdenlive",
-                "--enable-jackrack",
-                "--disable-decklink",
-                "--disable-dv",
-                "--disable-kino",
-                "--disable-linsys",
-                "--disable-ndi",
-                "--disable-swfdec",
-                "--disable-vorbis",
-                "--disable-xine",
-                "--disable-gtk2",
-                "--disable-qt",
-                "--disable-rtaudio",
-                "--disable-vid.stab",
-                "--disable-videostab",
-                "--disable-opencv"
+                "--swig-languages=python",
+                "--disable-gtk2"
             ],
             "post-install": [
                 "install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py",
@@ -472,9 +409,9 @@
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/mltframework/mlt/releases/download/v6.6.0/mlt-6.6.0.tar.gz",
-                    "sha256": "28cbc5974f72ef228d624a58809c7c8055372f5f62f5882dc055099d444b2cdd"
+                    "type": "git",
+                    "url": "https://github.com/mltframework/mlt.git",
+                    "commit": "446b6fa72d57f037afee8102c299367d05c83e4c"
                 }
             ],
             "cleanup": [
@@ -496,6 +433,7 @@
                 "mv /app/share/pixmaps/flowblade.png /app/share/icons/hicolor/128x128/apps/io.github.jliljebl.Flowblade.png",
                 "mv /app/share/applications/flowblade.desktop /app/share/applications/io.github.jliljebl.Flowblade.desktop",
                 "desktop-file-edit --set-key=Icon --set-value='io.github.jliljebl.Flowblade' /app/share/applications/io.github.jliljebl.Flowblade.desktop",
+                "desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop",
                 "install -Dm644 ../io.github.jliljebl.Flowblade.appdata.xml /app/share/appdata/io.github.jliljebl.Flowblade.appdata.xml"
             ],
             "sources": [
