@@ -72,8 +72,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gmic.eu/files/source/gmic_2.2.2.tar.gz",
-                    "sha256": "cce23f791c7c9f4a09ef00c4b696b29fe2ee55725cc03e9273c3da52bd900e7f"
+                    "url": "https://src.fedoraproject.org/repo/pkgs/rpms/gmic/gmic_2.2.0.tar.gz/sha512/c77d1fa0eb8cf0273371f6657a622da906a8ec0864815a9a77ecdf15d18765ed136651120990f81c7b5671397d8036b3cf5b66074a1dfe077ab1650cd7d294d2/gmic_2.2.0.tar.gz",
+                    "sha256": "8799041b5c706a0e340665fa2cb600e5b7a6bec6d50f1bc564bbcbca794c6b7b"
                 },
                 {
                     "type": "shell",
@@ -88,30 +88,17 @@
         },
         {
             "name": "movit",
-            "config-opts": [
-                "--disable-static",
-                "GTEST_DIR=./googletest"
-            ],
-            "make-args": [
-                "GTEST_DIR=./googletest"
+            "buildsystem": "simple",
+            "build-commands": [
+                "./autogen.sh --prefix=/app",
+                "make -j `nproc` libmovit.la",
+                "make install"
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "http://ftp.debian.org/debian/pool/main/m/movit/movit_1.6.2.orig.tar.gz",
-                    "sha256": "7428d56c23a38224c9333b8bb4a0c4f6b171ba64d4799c16516d40b30d0230e1"
-                },
-                {
-                    "type": "file",
-                    "url": "https://github.com/google/googletest/archive/release-1.8.0.tar.gz",
-                    "sha256": "58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8",
-                    "dest-filename": "gtest.tar.gz"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "tar xf gtest.tar.gz --strip 1"
-                    ]
+                    "type": "git",
+                    "url": "https://github.com/ddennedy/movit.git",
+                    "commit": "3e8b4ebb796bcbe7e9727a2d7f2d0ba8f0170dfa"
                 }
             ]
         },
