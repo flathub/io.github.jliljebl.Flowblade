@@ -9,7 +9,7 @@
         "--share=ipc",
         "--socket=x11",
         "--socket=pulseaudio",
-        "--device=dri",
+        "--device=all",
         "--filesystem=host",
         "--env=FREI0R_PATH=/app/lib/frei0r-1",
         "--env=LADSPA_PATH=/app/lib/ladspa",
@@ -26,15 +26,15 @@
             "config-opts": [
                 "-DCMAKE_BUILD_TYPE=Release"
             ],
+            "cleanup": [
+                "/share"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2",
                     "sha256": "dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6"
                 }
-            ],
-            "cleanup": [
-                "/share"
             ]
         },
         {
@@ -42,12 +42,16 @@
             "buildsystem": "simple",
             "build-commands": [
                 "./configure --prefix=/app --disable-doc --with-pic --enable-threads --enable-type-prefix",
-                "make -j `nproc`",
+                "make -j $FLATPAK_BUILDER_N_JOBS",
                 "make install",
                 "make clean",
                 "./configure --prefix=/app --disable-doc --with-pic --enable-threads --enable-type-prefix --enable-float",
-                "make -j `nproc`",
+                "make -j $FLATPAK_BUILDER_N_JOBS",
                 "make install"
+            ],
+            "cleanup": [
+                "/bin",
+                "/share/man"
             ],
             "sources": [
                 {
@@ -55,10 +59,6 @@
                     "url": "http://www.fftw.org/fftw-3.3.7.tar.gz",
                     "sha256": "3b609b7feba5230e8f6dd8d245ddbefac324c5a6ae4186947670d9ac2cd25573"
                 }
-            ],
-            "cleanup": [
-                "/bin",
-                "/share/man"
             ]
         },
         {
@@ -66,8 +66,8 @@
             "buildsystem": "simple",
             "subdir": "src",
             "build-commands": [
-                "make -j `nproc` OPENEXR_CFLAGS='' OPENEXR_LIBS='' OPENCV_CFLAGS='' OPENCV_LIBS='' cli",
-                "install -Dm755 gmic /app/bin/gmic"
+                "make -j $FLATPAK_BUILDER_N_JOBS OPENEXR_CFLAGS='' OPENEXR_LIBS='' OPENCV_CFLAGS='' OPENCV_LIBS='' cli",
+                "install gmic /app/bin/gmic"
             ],
             "sources": [
                 {
@@ -77,11 +77,11 @@
                 },
                 {
                     "type": "shell",
-                    "commands": [
-                        "cd src && sed -i 's/-mtune=generic//g' Makefile"
-                    ],
                     "only-arches": [
                         "arm"
+                    ],
+                    "commands": [
+                        "sed -i 's/-mtune=generic//g' src/Makefile"
                     ]
                 }
             ]
@@ -91,7 +91,7 @@
             "buildsystem": "simple",
             "build-commands": [
                 "./autogen.sh --prefix=/app",
-                "make -j `nproc` libmovit.la",
+                "make -j $FLATPAK_BUILDER_N_JOBS libmovit.la",
                 "make install"
             ],
             "sources": [
@@ -121,16 +121,16 @@
             "config-opts": [
                 "--disable-static"
             ],
+            "cleanup": [
+                "/bin",
+                "/share/man"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2",
                     "sha256": "81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c"
                 }
-            ],
-            "cleanup": [
-                "/bin",
-                "/share/man"
             ]
         },
         {
@@ -162,38 +162,44 @@
                 "--enable-libvpx",
                 "--enable-libx264"
             ],
+            "cleanup": [
+                "/share/ffmpeg"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://ffmpeg.org/releases/ffmpeg-3.4.2.tar.xz",
                     "sha256": "2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740"
                 }
-            ],
-            "cleanup": [
-                "/share/ffmpeg"
             ]
         },
         {
             "name": "dbus-python",
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "/lib/python2.7/site-packages/*.la",
+                "/share/doc"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.4.tar.gz",
                     "sha256": "e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc"
                 }
-            ],
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/python2.7/site-packages/*.la",
-                "/share/doc"
             ]
         },
         {
             "name": "numpy",
             "buildsystem": "simple",
             "build-commands": [
-                "python2 setup.py build -j `nproc` install --prefix=/app"
+                "python2 setup.py build -j $FLATPAK_BUILDER_N_JOBS install --prefix=/app"
+            ],
+            "cleanup": [
+                "/bin",
+                "/lib/python2.7/site-packages/numpy/core/lib/libnpymath.a",
+                "/lib/python2.7/site-packages/numpy/tests",
+                "/lib/python2.7/site-packages/numpy/*/tests"
             ],
             "sources": [
                 {
@@ -201,12 +207,6 @@
                     "url": "https://pypi.python.org/packages/ee/66/7c2690141c520db08b6a6f852fa768f421b0b50683b7bbcd88ef51f33170/numpy-1.14.0.zip",
                     "sha256": "3de643935b212307b420248018323a44ec51987a336d1d747c1322afc3c099fb"
                 }
-            ],
-            "cleanup": [
-                "/bin",
-                "/lib/python2.7/site-packages/numpy/core/lib/libnpymath.a",
-                "/lib/python2.7/site-packages/numpy/tests",
-                "/lib/python2.7/site-packages/numpy/*/tests"
             ]
         },
         {
@@ -224,21 +224,15 @@
             "build-commands": [
                 "python2 setup.py install --prefix=/app --root=/"
             ],
+            "cleanup": [
+                "/bin"
+            ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://pypi.python.org/packages/0f/57/25be1a4c2d487942c3ed360f6eee7f41c5b9196a09ca71c54d1a33c968d9/Pillow-5.0.0.tar.gz",
-                    "sha256": "12f29d6c23424f704c66b5b68c02fe0b571504459605cfe36ab8158359b0e1bb"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "sed -i 's/if not platform_/if not dirs/' setup.py"
-                    ]
+                    "url": "https://github.com/python-pillow/Pillow/archive/5.1.1.tar.gz",
+                    "sha256": "052ea58f018167f4d52225d7ee585c74e97093e40c9d56f87eacf5044f499bbf"
                 }
-            ],
-            "cleanup": [
-                "/bin"
             ]
         },
         {
@@ -247,16 +241,16 @@
             "build-commands": [
                 "python2 setup.py install --prefix=/app"
             ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://pypi.python.org/packages/ef/97/b33dc533ea6076d4ea9cbd2fe049a2b4a3df5c5b6fba9a182616f6f8d310/pycairo-1.15.4.tar.gz",
                     "sha256": "ee4c3068c048230e5ce74bb8994a024711129bde1af1d76e3276c7acd81c4357"
                 }
-            ],
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig"
             ]
         },
         {
@@ -266,17 +260,17 @@
                     "PYTHON": "/usr/bin/python2"
                 }
             },
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/pygobject/3.26/pygobject-3.26.1.tar.xz",
-                    "sha256": "f5577b9b9c70cabb9a60d81b855d488b767c66f867432e7fb64aa7269b04d1a9"
-                }
-            ],
             "cleanup": [
                 "/include",
                 "/lib/pkgconfig",
                 "/lib/python2.7/site-packages/gi/*.la"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/pygobject/3.28/pygobject-3.28.2.tar.xz",
+                    "sha256": "ac443afd14fcb9ff5744b65d6e2b380e70510278404fb8684a9b9fb089e6f2ca"
+                }
             ]
         },
         {
@@ -287,15 +281,15 @@
                 "--without-boost",
                 "--without-pcre"
             ],
+            "cleanup": [
+                "*"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz",
                     "sha256": "7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d"
                 }
-            ],
-            "cleanup": [
-                "*"
             ]
         },
         {
@@ -305,6 +299,15 @@
                 "--disable-static",
                 "--disable-pulseaudio",
                 "--enable-alsa"
+            ],
+            "cleanup": [
+                "/bin",
+                "/share/man",
+                "/share/aclocal",
+                "/include",
+                "/lib/pkgconfig",
+                "/lib/*.la",
+                "/lib/*.a"
             ],
             "sources": [
                 {
@@ -327,24 +330,23 @@
                         "autoconf"
                     ]
                 }
-            ],
-            "cleanup": [
-                "/bin",
-                "/share/man",
-                "/share/aclocal",
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/*.la",
-                "/lib/*.a"
             ]
         },
         {
             "name": "jack2",
             "buildsystem": "simple",
             "build-commands": [
-                "./waf configure --prefix=/app",
-                "./waf build -j `nproc`",
+                "./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --freebob=no --classic",
+                "./waf build -j $FLATPAK_BUILDER_N_JOBS",
                 "./waf install"
+            ],
+            "cleanup": [
+                "/bin",
+                "/include",
+                "/share",
+                "/lib/jack",
+                "/lib/libjackserver.so*",
+                "/lib/pkgconfig"
             ],
             "sources": [
                 {
@@ -352,9 +354,6 @@
                     "url": "https://github.com/jackaudio/jack2/releases/download/v1.9.12/jack2-1.9.12.tar.gz",
                     "sha256": "deefe2f936dc32f59ad3cef7e37276c2035ef8a024ca92118f35c9a292272e33"
                 }
-            ],
-            "cleanup": [
-                "/share/man"
             ]
         },
         {
@@ -392,19 +391,19 @@
             ],
             "post-install": [
                 "install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py",
-                "install -Dm755 src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://github.com/mltframework/mlt.git",
-                    "commit": "446b6fa72d57f037afee8102c299367d05c83e4c"
-                }
+                "install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so"
             ],
             "cleanup": [
                 "/bin",
                 "/include",
                 "/lib/pkgconfig"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/mltframework/mlt.git",
+                    "commit": "c1ef8ae0d573665ff881083d07e0576ea59a9efc"
+                }
             ]
         },
         {
@@ -412,7 +411,7 @@
             "buildsystem": "simple",
             "subdir": "flowblade-trunk",
             "build-commands": [
-                "python2 setup.py install --prefix=/app --install-lib=/app/share/flowblade --install-data=/app"
+                "python2 setup.py install --prefix=/app --install-lib=/app/share/flowblade"
             ],
             "post-install": [
                 "mv /app/share/mime/packages/flowblade.xml /app/share/mime/packages/io.github.jliljebl.Flowblade.xml",
@@ -421,7 +420,14 @@
                 "mv /app/share/applications/flowblade.desktop /app/share/applications/io.github.jliljebl.Flowblade.desktop",
                 "desktop-file-edit --set-key=Icon --set-value='io.github.jliljebl.Flowblade' /app/share/applications/io.github.jliljebl.Flowblade.desktop",
                 "desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop",
-                "install -Dm644 ../io.github.jliljebl.Flowblade.appdata.xml /app/share/appdata/io.github.jliljebl.Flowblade.appdata.xml"
+                "desktop-file-edit --set-key=MimeType --set-value='application/flowblade' /app/share/applications/io.github.jliljebl.Flowblade.desktop",
+                "install -Dm644 ../io.github.jliljebl.Flowblade.appdata.xml /app/share/appdata/io.github.jliljebl.Flowblade.appdata.xml",
+                "sed -i 's|\"/usr|\"/app|g' /app/bin/flowblade /app/share/flowblade/Flowblade/tools/gmic.py",
+                "sed -i 's|/usr/share/locale|/app/share/flowblade/Flowblade/locale|g' /app/share/flowblade/Flowblade/translations.py"
+            ],
+            "cleanup": [
+                "/share/man",
+                "/share/pixmaps"
             ],
             "sources": [
                 {
@@ -430,28 +436,10 @@
                     "sha256": "2b33535ca92ed6c179cf804ccc9cd742194742bdddcad0bd8c3387ca7a4327ef"
                 },
                 {
-                    "type": "shell",
-                    "commands": [
-                        "cd flowblade-trunk && sed -i 's|/usr|/app|g' flowblade Flowblade/tools/gmic.py && sed -i 's|/usr/share/locale|/app/share/flowblade/Flowblade/locale|g' Flowblade/translations.py"
-                    ]
-                },
-                {
                     "type": "file",
                     "path": "io.github.jliljebl.Flowblade.appdata.xml"
                 }
-            ],
-            "cleanup": [
-                "/share/man",
-                "/share/pixmaps"
             ]
         }
-    ],
-    "cleanup": [
-        "/include",
-        "/lib/cmake",
-        "/lib/pkgconfig",
-        "/share/pkgconfig",
-        "*.a",
-        "*.la"
     ]
 }
