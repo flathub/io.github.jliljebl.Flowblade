@@ -18,6 +18,15 @@
         "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf"
     ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/aclocal",
+        "/share/man",
+        "/share/pkgconfig",
+        "*.a",
+        "*.la"
+    ],
     "modules": [
         {
             "name": "eigen",
@@ -50,8 +59,7 @@
                 "make install"
             ],
             "cleanup": [
-                "/bin",
-                "/share/man"
+                "*"
             ],
             "sources": [
                 {
@@ -87,22 +95,6 @@
             ]
         },
         {
-            "name": "movit",
-            "buildsystem": "simple",
-            "build-commands": [
-                "./autogen.sh --prefix=/app",
-                "make -j $FLATPAK_BUILDER_N_JOBS libmovit.la",
-                "make install"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://github.com/ddennedy/movit.git",
-                    "commit": "3e8b4ebb796bcbe7e9727a2d7f2d0ba8f0170dfa"
-                }
-            ]
-        },
-        {
             "name": "frei0r-plugins",
             "buildsystem": "cmake-ninja",
             "config-opts": [
@@ -122,8 +114,7 @@
                 "--disable-static"
             ],
             "cleanup": [
-                "/bin",
-                "/share/man"
+                "/bin"
             ],
             "sources": [
                 {
@@ -176,9 +167,6 @@
         {
             "name": "dbus-python",
             "cleanup": [
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/python2.7/site-packages/*.la",
                 "/share/doc"
             ],
             "sources": [
@@ -197,7 +185,6 @@
             ],
             "cleanup": [
                 "/bin",
-                "/lib/python2.7/site-packages/numpy/core/lib/libnpymath.a",
                 "/lib/python2.7/site-packages/numpy/tests",
                 "/lib/python2.7/site-packages/numpy/*/tests"
             ],
@@ -241,10 +228,6 @@
             "build-commands": [
                 "python2 setup.py install --prefix=/app"
             ],
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig"
-            ],
             "sources": [
                 {
                     "type": "archive",
@@ -260,11 +243,6 @@
                     "PYTHON": "/usr/bin/python2"
                 }
             },
-            "cleanup": [
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/python2.7/site-packages/gi/*.la"
-            ],
             "sources": [
                 {
                     "type": "archive",
@@ -301,13 +279,7 @@
                 "--enable-alsa"
             ],
             "cleanup": [
-                "/bin",
-                "/share/man",
-                "/share/aclocal",
-                "/include",
-                "/lib/pkgconfig",
-                "/lib/*.la",
-                "/lib/*.a"
+                "/bin"
             ],
             "sources": [
                 {
@@ -342,11 +314,9 @@
             ],
             "cleanup": [
                 "/bin",
-                "/include",
                 "/share",
                 "/lib/jack",
-                "/lib/libjackserver.so*",
-                "/lib/pkgconfig"
+                "/lib/libjackserver.so*"
             ],
             "sources": [
                 {
@@ -394,9 +364,7 @@
                 "install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so"
             ],
             "cleanup": [
-                "/bin",
-                "/include",
-                "/lib/pkgconfig"
+                "/bin"
             ],
             "sources": [
                 {
@@ -426,7 +394,7 @@
                 "sed -i 's|/usr/share/locale|/app/share/flowblade/Flowblade/locale|g' /app/share/flowblade/Flowblade/translations.py"
             ],
             "cleanup": [
-                "/share/man",
+                "/lib/mime",
                 "/share/pixmaps"
             ],
             "sources": [
