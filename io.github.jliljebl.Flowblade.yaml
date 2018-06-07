@@ -25,7 +25,7 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:
-  - shared-modules/SDL/SDL-1.2.15.json
+  - modules/SDL-1.2.15.yaml
 
   - name: eigen
     buildsystem: cmake-ninja
