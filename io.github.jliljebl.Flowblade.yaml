@@ -145,8 +145,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/python-pillow/Pillow/archive/5.1.1.tar.gz
-        sha256: 052ea58f018167f4d52225d7ee585c74e97093e40c9d56f87eacf5044f499bbf
+        url: https://github.com/python-pillow/Pillow/archive/5.3.0.tar.gz
+        sha256: 9de4853d8b640c0185665735a1c3266b6d51636b3a3d8e3ea7876c485194b6e1
 
   - name: pycairo
     buildsystem: simple
