@@ -1,7 +1,7 @@
 id: io.github.jliljebl.Flowblade
 branch: stable
 runtime: org.gnome.Platform
-runtime-version: 3.28
+runtime-version: '3.30'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -25,61 +25,79 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:
-  - modules/SDL-1.2.15.yaml
+  - shared-modules/SDL/SDL-1.2.15.json
+  - shared-modules/python2.7/python-2.7.15.json
 
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-    cleanup:
-      - /share
-    sources:
-      - type: archive
-        url: https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2
-        sha256: dd254beb0bafc695d0f62ae1a222ff85b52dbaa3a16f76e781dce22d0d20a4a6
-
-  - name: fftw
-    buildsystem: simple
-    build-commands:
-      - ./configure --prefix=/app --disable-doc --with-pic --enable-threads --enable-type-prefix
-      - make -j $FLATPAK_BUILDER_N_JOBS
-      - make install
-      - make clean
-      - ./configure --prefix=/app --disable-doc --with-pic --enable-threads --enable-type-prefix --enable-float
-      - make -j $FLATPAK_BUILDER_N_JOBS
-      - make install
     cleanup:
       - '*'
     sources:
       - type: archive
-        url: http://www.fftw.org/fftw-3.3.7.tar.gz
-        sha256: 3b609b7feba5230e8f6dd8d245ddbefac324c5a6ae4186947670d9ac2cd25573
+        url: https://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2
+        sha256: 7352bff3ea299e4c7d7fbe31c504f8eb9149d7e685dec5a12fbaa26379f603e2
 
-  - name: gmic
-    buildsystem: simple
-    subdir: src
-    build-commands:
-      - make -j $FLATPAK_BUILDER_N_JOBS OPENEXR_CFLAGS='' OPENEXR_LIBS='' OPENCV_CFLAGS='' OPENCV_LIBS='' cli
-      - install -t /app/bin gmic
+  - name: fftw
+    config-opts:
+      - --disable-doc
+      - --enable-shared
+      - --disable-static
+      - --enable-threads
+    build-options:
+      arch:
+        i386:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse2
+        x86_64:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse2
+    cleanup:
+      - /bin
     sources:
       - type: archive
-        url: https://src.fedoraproject.org/repo/pkgs/rpms/gmic/gmic_2.2.0.tar.gz/sha512/c77d1fa0eb8cf0273371f6657a622da906a8ec0864815a9a77ecdf15d18765ed136651120990f81c7b5671397d8036b3cf5b66074a1dfe077ab1650cd7d294d2/gmic_2.2.0.tar.gz
-        sha256: 8799041b5c706a0e340665fa2cb600e5b7a6bec6d50f1bc564bbcbca794c6b7b
-      - type: shell
-        only-arches:
-          - arm
-        commands:
-          - sed -i 's/-mtune=generic//g' src/Makefile
+        url: http://www.fftw.org/fftw-3.3.8.tar.gz
+        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
+
+  - name: fftw-float
+    config-opts:
+      - --disable-doc
+      - --enable-shared
+      - --disable-static
+      - --enable-threads
+      - --enable-float
+    build-options:
+      arch:
+        i386:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse
+        x86_64:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: http://www.fftw.org/fftw-3.3.8.tar.gz
+        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
 
   - name: frei0r-plugins
     buildsystem: cmake-ninja
+    builddir: true
     config-opts:
-    - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
-    - type: archive
-      url: https://files.dyne.org/frei0r/frei0r-plugins-1.6.1.tar.gz
-      sha256: e0c24630961195d9bd65aa8d43732469e8248e8918faa942cfb881769d11515e
+      - type: archive
+        url: https://files.dyne.org/frei0r/frei0r-plugins-1.6.1.tar.gz
+        sha256: e0c24630961195d9bd65aa8d43732469e8248e8918faa942cfb881769d11515e
 
   - name: sox
     config-opts:
@@ -88,37 +106,10 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2
+        url: https://sourceforge.net/projects/sox/files/sox/14.4.2/sox-14.4.2.tar.bz2
         sha256: 81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c
-
-  - name: x264
-    config-opts:
-      - --disable-cli
-      - --enable-shared
-    sources:
-      - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20171223-2245-stable.tar.bz2
-        sha256: ee4ba2c3d1caf786ad66d3fa86bdc368a8f827318788a62a9c8444b2c35816bf
-  
-  - name: ffmpeg
-    config-opts:
-      - --enable-gpl
-      - --disable-static
-      - --enable-shared
-      - --disable-doc
-      - --disable-programs
-      - --enable-libfontconfig
-      - --enable-libfreetype
-      - --enable-libopus
-      - --enable-librsvg
-      - --enable-libvpx
-      - --enable-libx264
-    cleanup:
-      - /share/ffmpeg
-    sources:
-      - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-3.4.2.tar.xz
-        sha256: 2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740
+        mirror-urls:
+          - http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2
 
   - name: dbus-python
     cleanup:
@@ -169,7 +160,7 @@ modules:
   - name: pygobject
     build-options:
       env:
-        PYTHON: /usr/bin/python2
+        PYTHON: /app/bin/python2
     sources:
       - type: archive
         url: https://download.gnome.org/sources/pygobject/3.28/pygobject-3.28.2.tar.xz
@@ -178,15 +169,17 @@ modules:
   - name: swig
     config-opts:
       - --without-alllang
-      - --with-python=/usr/bin/python
+      - --with-python=/app/bin/python2
       - --without-boost
       - --without-pcre
     cleanup:
       - '*'
     sources:
-    - type: archive
-      url: http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
-      sha256: 7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d
+      - type: archive
+        url: https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz
+        sha256: 7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d
+        mirror-urls:
+          - http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
 
   - name: jack2
     buildsystem: simple
@@ -220,6 +213,49 @@ modules:
         url: https://www.ladspa.org/download/ladspa_sdk_1.13.tgz
         sha256: b5ed3f4f253a0f6c1b7a1f4b8cf62376ca9f51d999650dd822650c43852d306b
 
+  - name: gmic
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBUILD_LIB=OFF
+      - -DBUILD_MAN=OFF
+      - -DBUILD_BASH_COMPLETION=OFF
+    sources:
+      - type: archive
+        url: https://gmic.eu/files/source/gmic_2.4.0.tar.gz
+        sha256: ffc649c960f2dc52cea77039802a8c2b71f997ba300270e08fc2117e238614c3
+
+  - name: libx264
+    config-opts:
+      - --disable-cli
+      - --enable-shared
+    sources:
+      - type: archive
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20180807-2245-stable.tar.bz2
+        sha256: 1439f1a054c87965089b646e77d16e1a8bf2f9687e4dd696ac518e44c7644c2a
+  
+  - name: ffmpeg
+    config-opts:
+      - --enable-gpl
+      - --disable-static
+      - --enable-shared
+      - --disable-doc
+      - --disable-programs
+      - --enable-libfontconfig
+      - --enable-libfreetype
+      - --enable-libopus
+      - --enable-librsvg
+      - --enable-libvpx
+      - --enable-libx264
+      - --enable-libmp3lame
+    cleanup:
+      - /share/ffmpeg
+    sources:
+      - type: archive
+        url: https://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz
+        sha256: a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97
+
   - name: mlt
     config-opts:
       - --enable-gpl
@@ -234,7 +270,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: c1ef8ae0d573665ff881083d07e0576ea59a9efc
+        commit: 4d086b86100d5a8c67ac272f41ced0394f282164
 
   - name: flowblade
     buildsystem: simple
