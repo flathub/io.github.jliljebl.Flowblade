@@ -38,57 +38,6 @@ modules:
         url: https://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2
         sha256: 7352bff3ea299e4c7d7fbe31c504f8eb9149d7e685dec5a12fbaa26379f603e2
 
-  - name: fftw
-    config-opts:
-      - --disable-doc
-      - --enable-shared
-      - --disable-static
-      - --enable-threads
-    build-options:
-      arch:
-        i386:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse2
-        x86_64:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse2
-    cleanup:
-      - /bin
-    sources:
-      - type: archive
-        url: http://www.fftw.org/fftw-3.3.8.tar.gz
-        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
-
-  - name: fftw-float
-    config-opts:
-      - --disable-doc
-      - --enable-shared
-      - --disable-static
-      - --enable-threads
-      - --enable-float
-    build-options:
-      arch:
-        i386:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse
-        x86_64:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse
-    cleanup:
-      - /bin
-    sources:
-      - type: archive
-        url: http://www.fftw.org/fftw-3.3.8.tar.gz
-        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
-
   - name: frei0r-plugins
     buildsystem: cmake-ninja
     builddir: true
@@ -158,13 +107,13 @@ modules:
         sha256: ee4c3068c048230e5ce74bb8994a024711129bde1af1d76e3276c7acd81c4357
 
   - name: pygobject
-    build-options:
-      env:
-        PYTHON: /app/bin/python2
+    buildsystem: meson
+    config-opts:
+      - -Dpython=python2
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/pygobject/3.28/pygobject-3.28.2.tar.xz
-        sha256: ac443afd14fcb9ff5744b65d6e2b380e70510278404fb8684a9b9fb089e6f2ca
+        url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.1.tar.xz
+        sha256: e1335b70e36885bf1ae207ec1283a369b8fc3e080688046c1edb5a676edc11ce
 
   - name: swig
     config-opts:
@@ -197,6 +146,32 @@ modules:
         url: https://github.com/jackaudio/jack2/releases/download/v1.9.12/jack2-1.9.12.tar.gz
         sha256: deefe2f936dc32f59ad3cef7e37276c2035ef8a024ca92118f35c9a292272e33  
 
+  - name: fftw-float
+    config-opts:
+      - --disable-doc
+      - --enable-shared
+      - --disable-static
+      - --enable-threads
+      - --enable-float
+    build-options:
+      arch:
+        i386:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse
+        x86_64:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: http://www.fftw.org/fftw-3.3.8.tar.gz
+        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
+
   - name: swh-plugins
     sources:
       - type: archive
@@ -223,10 +198,10 @@ modules:
       - -DBUILD_BASH_COMPLETION=OFF
     sources:
       - type: archive
-        url: https://gmic.eu/files/source/gmic_2.4.0.tar.gz
-        sha256: ffc649c960f2dc52cea77039802a8c2b71f997ba300270e08fc2117e238614c3
+        url: https://gmic.eu/files/source/gmic_2.4.3.tar.gz
+        sha256: eaa263854cb6e88ee5d2704ac97cb891191bd03fd157cea211f98aff1c96ae5a
 
-  - name: libx264
+  - name: 'x264'
     config-opts:
       - --disable-cli
       - --enable-shared
@@ -253,8 +228,8 @@ modules:
       - /share/ffmpeg
     sources:
       - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz
-        sha256: a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97
+        url: https://ffmpeg.org/releases/ffmpeg-4.0.3.tar.xz
+        sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
 
   - name: mlt
     config-opts:
