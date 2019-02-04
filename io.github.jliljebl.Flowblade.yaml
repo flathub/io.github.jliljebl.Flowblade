@@ -182,10 +182,14 @@ modules:
         sha256: d1b090feec4c5e8f9605334b47faaad72db7cc18fe91d792b9161a9e3b821ce7
 
   - name: ladspa-sdk
-    buildsystem: simple
+    no-autogen: true
     subdir: src
-    build-commands:
-      - make INSTALL_PLUGINS_DIR=/app/lib/ladspa/ INSTALL_INCLUDE_DIR=/app/include/ INSTALL_BINARY_DIR=/app/bin/ install
+    make-install-args:
+      - INSTALL_PLUGINS_DIR=/app/lib/ladspa
+      - INSTALL_INCLUDE_DIR=/app/include
+      - INSTALL_BINARY_DIR=/app/bin
+    cleanup:
+      - /bin
     sources:
       - type: archive
         url: https://www.ladspa.org/download/ladspa_sdk_1.13.tgz
@@ -201,8 +205,8 @@ modules:
       - -DBUILD_BASH_COMPLETION=OFF
     sources:
       - type: archive
-        url: https://gmic.eu/files/source/gmic_2.4.3.tar.gz
-        sha256: eaa263854cb6e88ee5d2704ac97cb891191bd03fd157cea211f98aff1c96ae5a
+        url: https://gmic.eu/files/source/gmic_2.4.5.tar.gz
+        sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
 
   - name: 'x264'
     config-opts:
@@ -248,7 +252,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 4d086b86100d5a8c67ac272f41ced0394f282164
+        commit: eaf73b149347f2229eea44a038edea3170e03d39
 
   - name: flowblade
     buildsystem: simple
@@ -256,22 +260,12 @@ modules:
     build-commands:
       - python2 setup.py install --prefix=/app --install-lib=/app/share/flowblade
     post-install:
-      - mv /app/share/mime/packages/flowblade.xml /app/share/mime/packages/io.github.jliljebl.Flowblade.xml
-      - mkdir -p /app/share/icons/hicolor/128x128/apps
-      - mv /app/share/pixmaps/flowblade.png /app/share/icons/hicolor/128x128/apps/io.github.jliljebl.Flowblade.png
-      - mv /app/share/applications/flowblade.desktop /app/share/applications/io.github.jliljebl.Flowblade.desktop
-      - desktop-file-edit --set-key=Icon --set-value='io.github.jliljebl.Flowblade' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
-      - desktop-file-edit --set-key=MimeType --set-value='application/flowblade' /app/share/applications/io.github.jliljebl.Flowblade.desktop
-      - install -Dm644 ../io.github.jliljebl.Flowblade.appdata.xml /app/share/appdata/io.github.jliljebl.Flowblade.appdata.xml
-      - sed -i 's|"/usr|"/app|g' /app/bin/flowblade /app/share/flowblade/Flowblade/tools/gmic.py
-      - sed -i 's|/usr/share/locale|/app/share/flowblade/Flowblade/locale|g' /app/share/flowblade/Flowblade/translations.py
+      - sed -i 's|"app|"/app|' /app/share/flowblade/Flowblade/translations.py
     cleanup:
       - /lib/mime
       - /share/pixmaps
     sources:
       - type: archive
-        url: https://github.com/jliljebl/flowblade/archive/v1.16.tar.gz
-        sha256: 2b33535ca92ed6c179cf804ccc9cd742194742bdddcad0bd8c3387ca7a4327ef
-      - type: file
-        path: io.github.jliljebl.Flowblade.appdata.xml
+        url: https://github.com/jliljebl/flowblade/archive/v2.0.tar.gz
+        sha256: c8f21d76803d9ed44585e6d960b12ba1930661e58ee36456fc424d41e2945b33
