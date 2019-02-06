@@ -27,6 +27,7 @@ cleanup:
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/python2.7/python-2.7.15.json
+  - shared-modules/gtk2/gtk2.json
 
   - name: eigen
     buildsystem: cmake-ninja
@@ -243,7 +244,6 @@ modules:
       - --enable-gpl
       - --enable-gpl3
       - --swig-languages=python
-      - --disable-gtk2
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
