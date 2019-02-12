@@ -266,6 +266,6 @@ modules:
       - /lib/mime
       - /share/pixmaps
     sources:
-      - type: archive
-        url: https://github.com/jliljebl/flowblade/archive/v2.0.tar.gz
-        sha256: c8f21d76803d9ed44585e6d960b12ba1930661e58ee36456fc424d41e2945b33
+      - type: git
+        url: https://github.com/jliljebl/flowblade.git
+        commit: dc58195fe7622fa1bece0c9ae1fbc1f7e97d003a
