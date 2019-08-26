@@ -1,7 +1,7 @@
-id: io.github.jliljebl.Flowblade
+app-id: io.github.jliljebl.Flowblade
 branch: stable
 runtime: org.gnome.Platform
-runtime-version: '3.30'
+runtime-version: '3.32'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -27,6 +27,7 @@ cleanup:
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/python2.7/python-2.7.15.json
+  - shared-modules/gtk2/gtk2.json
 
   - name: eigen
     buildsystem: cmake-ninja
@@ -192,8 +193,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://www.ladspa.org/download/ladspa_sdk_1.13.tgz
-        sha256: b5ed3f4f253a0f6c1b7a1f4b8cf62376ca9f51d999650dd822650c43852d306b
+        url: https://www.ladspa.org/download/ladspa_sdk_1.15.tgz
+        sha256: 4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded
 
   - name: gmic
     buildsystem: cmake-ninja
@@ -243,7 +244,6 @@ modules:
       - --enable-gpl
       - --enable-gpl3
       - --swig-languages=python
-      - --disable-gtk2
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
