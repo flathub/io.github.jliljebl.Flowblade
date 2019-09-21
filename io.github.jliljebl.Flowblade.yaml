@@ -39,6 +39,17 @@ modules:
         url: https://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2
         sha256: 7352bff3ea299e4c7d7fbe31c504f8eb9149d7e685dec5a12fbaa26379f603e2
 
+  - name: gavl
+    rm-configure: true
+    config-opts:
+      - --without-doxygen
+      - --disable-static
+      - --enable-shared
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/project/gmerlin/gavl/1.4.0/gavl-1.4.0.tar.gz
+        sha256: 51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce
+
   - name: frei0r-plugins
     buildsystem: cmake-ninja
     builddir: true
