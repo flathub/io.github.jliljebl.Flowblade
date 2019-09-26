@@ -26,7 +26,7 @@ cleanup:
   - '*.la'
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
-  - shared-modules/python2.7/python-2.7.15.json
+  - shared-modules/python2.7/python-2.7.json
   - shared-modules/gtk2/gtk2.json
 
   - name: eigen
