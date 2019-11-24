@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
-branch: stable
+default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '3.32'
+runtime-version: '3.34'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -12,10 +12,6 @@ finish-args:
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/lib/ladspa
-  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
-  - --filesystem=xdg-run/dconf
-  - --filesystem=~/.config/dconf:ro
-  - --talk-name=ca.desrt.dconf
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -26,8 +22,9 @@ cleanup:
   - '*.la'
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
-  - shared-modules/python2.7/python-2.7.15.json
+  - shared-modules/python2.7/python-2.7.json
   - shared-modules/gtk2/gtk2.json
+  - shared-modules/dbus-glib/dbus-glib-0.110.json
 
   - name: eigen
     buildsystem: cmake-ninja
@@ -226,8 +223,8 @@ modules:
       - --enable-shared
     sources:
       - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20180807-2245-stable.tar.bz2
-        sha256: 1439f1a054c87965089b646e77d16e1a8bf2f9687e4dd696ac518e44c7644c2a
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
+        sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
   
   - name: ffmpeg
     config-opts:
@@ -247,14 +244,18 @@ modules:
       - /share/ffmpeg
     sources:
       - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-4.0.3.tar.xz
-        sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
+        url: https://www.ffmpeg.org/releases/ffmpeg-4.2.1.tar.xz
+        sha256: cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4
 
   - name: mlt
     config-opts:
       - --enable-gpl
       - --enable-gpl3
       - --swig-languages=python
+    build-options:
+      env:
+        PYTHON: python2
+        CXXFLAGS: -L/app/lib
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
@@ -263,7 +264,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 179228302e0dabc0ee883a6abd790e9957271425
+        commit: 1191b521b741dddb92d008a31e375077b337c11d
 
   - name: flowblade
     buildsystem: simple
