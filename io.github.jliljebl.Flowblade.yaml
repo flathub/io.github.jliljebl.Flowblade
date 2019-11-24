@@ -223,8 +223,8 @@ modules:
       - --enable-shared
     sources:
       - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20180807-2245-stable.tar.bz2
-        sha256: 1439f1a054c87965089b646e77d16e1a8bf2f9687e4dd696ac518e44c7644c2a
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
+        sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
   
   - name: ffmpeg
     config-opts:
@@ -244,8 +244,8 @@ modules:
       - /share/ffmpeg
     sources:
       - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-4.0.3.tar.xz
-        sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
+        url: https://www.ffmpeg.org/releases/ffmpeg-4.2.1.tar.xz
+        sha256: cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4
 
   - name: mlt
     config-opts:
