@@ -253,7 +253,7 @@ modules:
       - --enable-gpl3
       - --swig-languages=python
     build-options:
-      ldflags: -L/app/lib
+      PYTHON: python2
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
@@ -262,7 +262,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: f7b6572695f57b201f06dd63bc4a8090f73527cd
+        commit: 1191b521b741dddb92d008a31e375077b337c11d
 
   - name: flowblade
     buildsystem: simple
