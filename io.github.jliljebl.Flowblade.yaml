@@ -253,7 +253,8 @@ modules:
       - --enable-gpl3
       - --swig-languages=python
     build-options:
-      PYTHON: python2
+      env:
+        PYTHON: python2
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
