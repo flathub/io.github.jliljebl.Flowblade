@@ -1,5 +1,5 @@
 app-id: io.github.jliljebl.Flowblade
-branch: stable
+default-branch: stable
 runtime: org.gnome.Platform
 runtime-version: '3.34'
 sdk: org.gnome.Sdk
