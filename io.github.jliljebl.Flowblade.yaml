@@ -216,6 +216,22 @@ modules:
         url: https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
         sha256: f58913e9227400f1395c7b800503ebfdb0772f1c33ff8cb4d6451c06cabdf316
 
+  - name: jack2
+    buildsystem: simple
+    build-commands:
+      - ./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic
+      - ./waf build -j $FLATPAK_BUILDER_N_JOBS
+      - ./waf install
+    cleanup:
+      - /bin
+      - /share
+      - /lib/jack
+      - /lib/libjackserver.so*
+    sources:
+      - type: archive
+        url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
+        sha256: a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c
+
   - name: mlt
     config-opts:
       - --enable-gpl
