@@ -22,7 +22,6 @@ cleanup:
   - '*.la'
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
-  - shared-modules/python2.7/python-2.7.json
   - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib-0.110.json
 
@@ -54,8 +53,8 @@ modules:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: archive
-        url: https://files.dyne.org/frei0r/frei0r-plugins-1.6.1.tar.gz
-        sha256: e0c24630961195d9bd65aa8d43732469e8248e8918faa942cfb881769d11515e
+        url: https://files.dyne.org/frei0r/releases/frei0r-plugins-1.7.0.tar.gz
+        sha256: 1b1ff8f0f9bc23eed724e94e9a7c1d8f0244bfe33424bb4fe68e6460c088523a
 
   - name: sox
     config-opts:
@@ -77,19 +76,6 @@ modules:
         url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.4.tar.gz
         sha256: e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc
 
-  - name: numpy
-    buildsystem: simple
-    build-commands:
-      - python2 setup.py build -j $FLATPAK_BUILDER_N_JOBS install --prefix=/app
-    cleanup:
-      - /bin
-      - /lib/python2.7/site-packages/numpy/tests
-      - /lib/python2.7/site-packages/numpy/*/tests
-    sources:
-      - type: archive
-        url: https://pypi.python.org/packages/ee/66/7c2690141c520db08b6a6f852fa768f421b0b50683b7bbcd88ef51f33170/numpy-1.14.0.zip
-        sha256: 3de643935b212307b420248018323a44ec51987a336d1d747c1322afc3c099fb
-
   - name: pillow
     buildsystem: simple
     build-options:
@@ -98,7 +84,7 @@ modules:
           env:
             MAX_CONCURRENCY: '1'
     build-commands:
-      - python2 setup.py install --prefix=/app --root=/
+      - python3 setup.py install --prefix=/app --root=/
     cleanup:
       - /bin
     sources:
@@ -109,7 +95,7 @@ modules:
   - name: pycairo
     buildsystem: simple
     build-commands:
-      - python2 setup.py install --prefix=/app
+      - python3 setup.py install --prefix=/app
     sources:
       - type: archive
         url: https://pypi.python.org/packages/ef/97/b33dc533ea6076d4ea9cbd2fe049a2b4a3df5c5b6fba9a182616f6f8d310/pycairo-1.15.4.tar.gz
@@ -118,7 +104,7 @@ modules:
   - name: pygobject
     buildsystem: meson
     config-opts:
-      - -Dpython=python2
+      - -Dpython=python3
     sources:
       - type: archive
         url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.1.tar.xz
@@ -127,7 +113,7 @@ modules:
   - name: swig
     config-opts:
       - --without-alllang
-      - --with-python=/app/bin/python2
+      - --with-python=/app/bin/python3
       - --without-boost
       - --without-pcre
     cleanup:
@@ -138,22 +124,6 @@ modules:
         sha256: 7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d
         mirror-urls:
           - http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
-
-  - name: jack2
-    buildsystem: simple
-    build-commands:
-      - ./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --freebob=no --classic
-      - ./waf build -j $FLATPAK_BUILDER_N_JOBS
-      - ./waf install
-    cleanup:
-      - /bin
-      - /share
-      - /lib/jack
-      - /lib/libjackserver.so*
-    sources:
-      - type: archive
-        url: https://github.com/jackaudio/jack2/releases/download/v1.9.12/jack2-1.9.12.tar.gz
-        sha256: deefe2f936dc32f59ad3cef7e37276c2035ef8a024ca92118f35c9a292272e33  
 
   - name: fftw-float
     config-opts:
@@ -204,19 +174,6 @@ modules:
         url: https://www.ladspa.org/download/ladspa_sdk_1.15.tgz
         sha256: 4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded
 
-  - name: gmic
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      - -DBUILD_LIB=OFF
-      - -DBUILD_MAN=OFF
-      - -DBUILD_BASH_COMPLETION=OFF
-    sources:
-      - type: archive
-        url: https://gmic.eu/files/source/gmic_2.4.5.tar.gz
-        sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
-
   - name: 'x264'
     config-opts:
       - --disable-cli
@@ -247,6 +204,34 @@ modules:
         url: https://www.ffmpeg.org/releases/ffmpeg-4.2.1.tar.xz
         sha256: cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4
 
+  - name: numpy
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/python3.7/site-packages
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.7m/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
+        sha256: f58913e9227400f1395c7b800503ebfdb0772f1c33ff8cb4d6451c06cabdf316
+
+  - name: jack2
+    buildsystem: simple
+    build-commands:
+      - ./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic
+      - ./waf build -j $FLATPAK_BUILDER_N_JOBS
+      - ./waf install
+    cleanup:
+      - /bin
+      - /share
+      - /lib/jack
+      - /lib/libjackserver.so*
+    sources:
+      - type: archive
+        url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
+        sha256: a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c
+
   - name: mlt
     config-opts:
       - --enable-gpl
@@ -254,30 +239,29 @@ modules:
       - --swig-languages=python
     build-options:
       env:
-        PYTHON: python2
+        PYTHON: python3
         CXXFLAGS: -L/app/lib
     post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python2.7/site-packages/mlt.py
-      - install src/swig/python/_mlt.so /app/lib/python2.7/site-packages/_mlt.so
+      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.7/site-packages/mlt.py
+      - install src/swig/python/_mlt.so /app/lib/python3.7/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 1191b521b741dddb92d008a31e375077b337c11d
+        commit: 221ff239b9cbbc0e0b749f24e3f754eb087cb1f9
 
   - name: flowblade
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python2 setup.py install --prefix=/app --install-lib=/app/share/flowblade
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
-      - sed -i 's|"app|"/app|' /app/share/flowblade/Flowblade/translations.py
     cleanup:
       - /lib/mime
       - /share/pixmaps
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: d38b3edd47ee77855781c17c812d4042ffed8f26
+        commit: bc1d70e49412112a6371941678686d6c10221c3e
