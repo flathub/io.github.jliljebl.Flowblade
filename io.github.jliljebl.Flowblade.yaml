@@ -232,6 +232,19 @@ modules:
         url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
         sha256: a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c
 
+  - name: gmic
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBUILD_LIB=OFF
+      - -DBUILD_MAN=OFF
+      - -DBUILD_BASH_COMPLETION=OFF
+    sources:
+      - type: archive
+        url: https://gmic.eu/files/source/gmic_2.4.5.tar.gz
+        sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
+
   - name: mlt
     config-opts:
       - --enable-gpl
@@ -264,4 +277,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: bc1d70e49412112a6371941678686d6c10221c3e
+        branch: release-2-4-fix
+        commit: 13d3073df18d224f398de3acb89cc487bd20de0a
