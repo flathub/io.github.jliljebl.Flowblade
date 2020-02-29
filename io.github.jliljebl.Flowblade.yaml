@@ -278,4 +278,4 @@ modules:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
         branch: release-2-4-fix
-        commit: 13d3073df18d224f398de3acb89cc487bd20de0a
+        commit: 6a180252261b94b72959ac8fa562c916c99ecfaf
