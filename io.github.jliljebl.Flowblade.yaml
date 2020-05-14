@@ -11,7 +11,23 @@ finish-args:
   - --device=all
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
-  - --env=LADSPA_PATH=/app/lib/ladspa
+  - --env=LADSPA_PATH=/app/extensions/LadspaPlugins/ladspa:/app/lib/ladspa
+
+add-extensions:
+  org.freedesktop.LinuxAudio.LadspaPlugins:
+    directory: extensions/LadspaPlugins
+    version: '19.08'
+    add-ld-path: lib
+    merge-dirs: ladspa
+    subdirectories: true
+    no-autodownload: true
+  org.freedesktop.LinuxAudio.LadspaPlugins.swh:
+    directory: extensions/LadspaPlugins/swh
+    version: '19.08'
+    add-ld-path: lib
+    merge-dirs: ladspa
+    subdirectories: true
+
 cleanup:
   - /include
   - /lib/pkgconfig
@@ -151,15 +167,6 @@ modules:
         url: http://www.fftw.org/fftw-3.3.8.tar.gz
         sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
 
-  - name: swh-plugins
-    build-options:
-      cflags: -fPIC
-      ldflags: -fpic
-    sources:
-      - type: archive
-        url: https://github.com/swh/ladspa/archive/v0.4.17.tar.gz
-        sha256: d1b090feec4c5e8f9605334b47faaad72db7cc18fe91d792b9161a9e3b821ce7
-
   - name: ladspa-sdk
     no-autogen: true
     subdir: src
@@ -271,11 +278,13 @@ modules:
       - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
+      - install -d /app/extensions/LadspaPlugins
     cleanup:
       - /lib/mime
       - /share/pixmaps
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        branch: release-2-4-fix
-        commit: 6a180252261b94b72959ac8fa562c916c99ecfaf
+        # branch: release-2-4-fix
+        # commit: 6a180252261b94b72959ac8fa562c916c99ecfaf
+        tag: v2.4.0.1-fix_release
