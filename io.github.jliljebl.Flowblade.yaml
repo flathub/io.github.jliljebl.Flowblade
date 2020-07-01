@@ -11,9 +11,16 @@ finish-args:
   - --device=all
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
-  - --env=LADSPA_PATH=/app/extensions/LadspaPlugins/ladspa:/app/lib/ladspa
+  - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/extensions/LadspaPlugins/ladspa:/app/lib/ladspa
 
 add-extensions:
+  org.freedesktop.LinuxAudio.Plugins:
+    directory: extensions/Plugins
+    version: '19.08'
+    add-ld-path: lib
+    merge-dirs: ladspa
+    subdirectories: true
+    no-autodownload: true
   org.freedesktop.LinuxAudio.LadspaPlugins:
     directory: extensions/LadspaPlugins
     version: '19.08'
@@ -26,6 +33,7 @@ add-extensions:
     version: '19.08'
     add-ld-path: lib
     merge-dirs: ladspa
+    autodelete: false
     subdirectories: true
 
 cleanup:
@@ -278,6 +286,7 @@ modules:
       - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
+      - install -d /app/extensions/Plugins
       - install -d /app/extensions/LadspaPlugins
     cleanup:
       - /lib/mime
