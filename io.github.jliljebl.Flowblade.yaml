@@ -295,6 +295,6 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        # branch: release-2-4-fix
-        # commit: 6a180252261b94b72959ac8fa562c916c99ecfaf
-        tag: v2.4.0.1-fix_release
+        branch: master
+        commit: ba8baffe39e334cd61315fe05f82daf2ecc03521
+        # tag: v2.4.0.1-fix_release
