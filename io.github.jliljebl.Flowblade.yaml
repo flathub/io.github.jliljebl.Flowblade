@@ -8,6 +8,7 @@ finish-args:
   - --share=ipc
   - --socket=x11
   - --socket=pulseaudio
+  - --socket=system-bus
   - --device=all
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
