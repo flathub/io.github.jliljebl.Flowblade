@@ -57,8 +57,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2
-        sha256: 7352bff3ea299e4c7d7fbe31c504f8eb9149d7e685dec5a12fbaa26379f603e2
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2
+        sha256: 685adf14bd8e9c015b78097c1dc22f2f01343756f196acdc76a678e1ae352e11
 
   - name: gavl
     rm-configure: true
