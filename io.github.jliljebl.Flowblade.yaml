@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
 default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '3.36'
+runtime-version: '3.38'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -17,21 +17,21 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.LadspaPlugins:
     directory: extensions/LadspaPlugins
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.LadspaPlugins.swh:
     directory: extensions/LadspaPlugins/swh
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
