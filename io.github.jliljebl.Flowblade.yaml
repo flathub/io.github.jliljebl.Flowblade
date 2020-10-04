@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
 default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '3.36'
+runtime-version: '3.38'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -17,21 +17,21 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.LadspaPlugins:
     directory: extensions/LadspaPlugins
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.LadspaPlugins.swh:
     directory: extensions/LadspaPlugins/swh
-    version: '19.08'
+    version: '20.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -57,8 +57,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://bitbucket.org/eigen/eigen/get/3.3.5.tar.bz2
-        sha256: 7352bff3ea299e4c7d7fbe31c504f8eb9149d7e685dec5a12fbaa26379f603e2
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2
+        sha256: 685adf14bd8e9c015b78097c1dc22f2f01343756f196acdc76a678e1ae352e11
 
   - name: gavl
     rm-configure: true
@@ -98,8 +98,8 @@ modules:
       - /share/doc
     sources:
       - type: archive
-        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.4.tar.gz
-        sha256: e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc
+        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.16.tar.gz
+        sha256: 11238f1d86c995d8aed2e22f04a1e3779f0d70e587caffeab4857f3c662ed5a4
 
   - name: pillow
     buildsystem: simple
@@ -271,8 +271,8 @@ modules:
         PYTHON: python3
         CXXFLAGS: -L/app/lib
     post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.7/site-packages/mlt.py
-      - install src/swig/python/_mlt.so /app/lib/python3.7/site-packages/_mlt.so
+      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.8/site-packages/mlt.py
+      - install src/swig/python/_mlt.so /app/lib/python3.8/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
@@ -295,6 +295,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        branch: master
         commit: b0b21b59bd56c9b67790630760438b9c5d377b1e
         # tag: v2.4.0.1-fix_release
