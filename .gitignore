@@ -1,0 +1,6 @@
+# Ignore folders created when building with local reaources
+.flatpak-builder/
+build_dir/
+
+
+
