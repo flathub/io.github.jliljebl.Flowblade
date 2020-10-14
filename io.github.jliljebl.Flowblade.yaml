@@ -13,7 +13,8 @@ finish-args:
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/lib/ladspa
-
+  - --talk-name=org.freedesktop.Flatpak
+ 
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
@@ -286,6 +287,7 @@ modules:
       - /share/pixmaps
     sources:
       - type: git
+        branch: 2-6-1-release
         url: https://github.com/jliljebl/flowblade.git
-        commit: b0b21b59bd56c9b67790630760438b9c5d377b1e
+        commit: 8115f22c7e6bbd5d4d32c78de8c728ea4928cc43
         # tag: v2.4.0.1-fix_release
