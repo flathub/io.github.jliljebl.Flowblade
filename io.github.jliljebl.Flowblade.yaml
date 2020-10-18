@@ -289,5 +289,4 @@ modules:
       - type: git
         branch: 2-6-1-release
         url: https://github.com/jliljebl/flowblade.git
-        commit: 8115f22c7e6bbd5d4d32c78de8c728ea4928cc43
-        # tag: v2.4.0.1-fix_release
+        commit: ac8db6d3080fc4e7033b2fb2dfb4d5c543102a44
