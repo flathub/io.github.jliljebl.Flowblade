@@ -64,6 +64,9 @@ modules:
       - type: archive
         url: https://downloads.sourceforge.net/project/gmerlin/gavl/1.4.0/gavl-1.4.0.tar.gz
         sha256: 51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce
+      - type: shell
+        commands:
+        - cp -p /usr/share/automake-*/config.{sub,guess} .
 
   - name: frei0r-plugins
     buildsystem: cmake-ninja
@@ -163,6 +166,9 @@ modules:
             - --enable-avx
             - --enable-openmp
             - --enable-sse
+        aarch64:
+          config-opts:
+            - --enable-neon
     cleanup:
       - /bin
     sources:
@@ -287,6 +293,6 @@ modules:
       - /share/pixmaps
     sources:
       - type: git
-        branch: 2-6-1-release
+        #branch: 2-6-1-release
         url: https://github.com/jliljebl/flowblade.git
         commit: ac8db6d3080fc4e7033b2fb2dfb4d5c543102a44
