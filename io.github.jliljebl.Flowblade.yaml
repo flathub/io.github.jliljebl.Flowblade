@@ -278,7 +278,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 221ff239b9cbbc0e0b749f24e3f754eb087cb1f9
+        commit: 902c4c2d82514e812b3129a0aa3146a89bb898ec
 
   - name: flowblade
     buildsystem: simple
@@ -293,6 +293,5 @@ modules:
       - /share/pixmaps
     sources:
       - type: git
-        #branch: 2-6-1-release
         url: https://github.com/jliljebl/flowblade.git
-        commit: ac8db6d3080fc4e7033b2fb2dfb4d5c543102a44
+        commit: 46aa14778291c491d97188ea6a0dbf08196da781
