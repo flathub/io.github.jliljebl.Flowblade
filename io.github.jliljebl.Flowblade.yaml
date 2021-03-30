@@ -295,4 +295,5 @@ modules:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
         branch: 2-8-fix-relese
-        commit: f28cdf892d4efd7b64810ef688b5a584101e9640
+        commit: 192575f6985190f7f36c1d555704444d266a5e88
+
