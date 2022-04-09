@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
 default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '40'
+runtime-version: '42'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -14,18 +14,18 @@ finish-args:
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/lib/ladspa
   - --talk-name=org.freedesktop.Flatpak
- 
+
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '20.08'
+    version: '21.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.Plugins.swh:
     directory: extensions/Plugins/swh
-    version: '20.08'
+    version: '21.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -42,7 +42,7 @@ cleanup:
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
-  - shared-modules/dbus-glib/dbus-glib-0.110.json
+  - shared-modules/dbus-glib/dbus-glib.json
 
   - name: eigen
     buildsystem: cmake-ninja
@@ -129,8 +129,8 @@ modules:
       - -Dpython=python3
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.1.tar.xz
-        sha256: e1335b70e36885bf1ae207ec1283a369b8fc3e080688046c1edb5a676edc11ce
+        url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.5.tar.xz
+        sha256: 9deeac63e0d834646221cf37404d2fdfb3eac6d49aa50133ef9ac38f09ff2bfd
 
   - name: swig
     config-opts:
@@ -147,48 +147,8 @@ modules:
         mirror-urls:
           - http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
 
-  - name: fftw-float
-    config-opts:
-      - --disable-doc
-      - --enable-shared
-      - --disable-static
-      - --enable-threads
-      - --enable-float
-    build-options:
-      arch:
-        i386:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse
-        x86_64:
-          config-opts:
-            - --enable-avx
-            - --enable-openmp
-            - --enable-sse
-        aarch64:
-          config-opts:
-            - --enable-neon
-    cleanup:
-      - /bin
-    sources:
-      - type: archive
-        url: http://www.fftw.org/fftw-3.3.8.tar.gz
-        sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
-
-  - name: ladspa-sdk
-    no-autogen: true
-    subdir: src
-    make-install-args:
-      - INSTALL_PLUGINS_DIR=/app/lib/ladspa
-      - INSTALL_INCLUDE_DIR=/app/include
-      - INSTALL_BINARY_DIR=/app/bin
-    cleanup:
-      - /bin
-    sources:
-      - type: archive
-        url: https://www.ladspa.org/download/ladspa_sdk_1.15.tgz
-        sha256: 4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded
+  - shared-modules/linux-audio/fftw3f.json
+  - shared-modules/linux-audio/ladspa.json
 
   - name: 'x264'
     config-opts:
@@ -223,8 +183,8 @@ modules:
   - name: numpy
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/lib/python3.7/site-packages
-      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.7m/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+      - mkdir -p /app/lib/python3.9/site-packages
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.9/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
     cleanup:
       - /bin
     sources:
@@ -239,10 +199,7 @@ modules:
       - ./waf build -j $FLATPAK_BUILDER_N_JOBS
       - ./waf install
     cleanup:
-      - /bin
-      - /share
-      - /lib/jack
-      - /lib/libjackserver.so*
+      - '*'
     sources:
       - type: archive
         url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
@@ -271,8 +228,8 @@ modules:
         PYTHON: python3
         CXXFLAGS: -L/app/lib
     post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.8/site-packages/mlt.py
-      - install src/swig/python/_mlt.so /app/lib/python3.8/site-packages/_mlt.so
+      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.9/site-packages/mlt.py
+      - install src/swig/python/_mlt.so /app/lib/python3.9/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
