@@ -8,11 +8,11 @@ finish-args:
   - --share=ipc
   - --socket=x11
   - --socket=pulseaudio
-  - --socket=system-bus
   - --device=all
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/lib/ladspa
+  - --own-name=flowblade.movie.editor.batchrender
   - --talk-name=org.freedesktop.Flatpak
 
 add-extensions:
@@ -100,11 +100,6 @@ modules:
 
   - name: pillow
     buildsystem: simple
-    build-options:
-      arch:
-        i386:
-          env:
-            MAX_CONCURRENCY: '1'
     build-commands:
       - python3 setup.py install --prefix=/app --root=/
     cleanup:
@@ -226,7 +221,7 @@ modules:
     build-options:
       env:
         PYTHON: python3
-        CXXFLAGS: -L/app/lib
+      cxxflags: -L/app/lib
     post-install:
       - install -Dm644 src/swig/python/mlt.py /app/lib/python3.9/site-packages/mlt.py
       - install src/swig/python/_mlt.so /app/lib/python3.9/site-packages/_mlt.so
