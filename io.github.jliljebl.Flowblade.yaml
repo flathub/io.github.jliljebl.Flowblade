@@ -18,14 +18,14 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '21.08'
+    version: '22.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.Plugins.swh:
     directory: extensions/Plugins/swh
-    version: '21.08'
+    version: '22.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -186,19 +186,6 @@ modules:
       - type: archive
         url: https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
         sha256: f58913e9227400f1395c7b800503ebfdb0772f1c33ff8cb4d6451c06cabdf316
-
-  - name: jack2
-    buildsystem: simple
-    build-commands:
-      - ./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic
-      - ./waf build -j $FLATPAK_BUILDER_N_JOBS
-      - ./waf install
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
-        sha256: a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c
 
   - name: gmic
     buildsystem: cmake-ninja
