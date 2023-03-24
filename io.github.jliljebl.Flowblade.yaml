@@ -177,8 +177,8 @@ modules:
   - name: numpy
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/lib/python3.9/site-packages
-      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.9/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+      - mkdir -p /app/lib/python3.10/site-packages
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.10/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
     cleanup:
       - /bin
     sources:
@@ -209,8 +209,8 @@ modules:
         PYTHON: python3
       cxxflags: -L/app/lib
     post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.9/site-packages/mlt.py
-      - install src/swig/python/_mlt.so /app/lib/python3.9/site-packages/_mlt.so
+      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.10/site-packages/mlt.py
+      - install src/swig/python/_mlt.so /app/lib/python3.10/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
