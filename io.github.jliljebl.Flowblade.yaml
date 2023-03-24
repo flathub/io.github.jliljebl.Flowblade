@@ -183,8 +183,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
-        sha256: f58913e9227400f1395c7b800503ebfdb0772f1c33ff8cb4d6451c06cabdf316
+        url: https://files.pythonhosted.org/packages/e4/a9/6704bb5e1d1d778d3a6ee1278a8d8134f0db160e09d52863a24edb58eab5/numpy-1.24.2.tar.gz
+        sha256: 003a9f530e880cb2cd177cba1af7220b9aa42def9c4afc2a2fc3ee6be7eb2b22
 
   - name: gmic
     buildsystem: cmake-ninja
