@@ -95,8 +95,8 @@ modules:
       - /share/doc
     sources:
       - type: archive
-        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.16.tar.gz
-        sha256: 11238f1d86c995d8aed2e22f04a1e3779f0d70e587caffeab4857f3c662ed5a4
+        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
+        sha256: 92bdd1e68b45596c833307a5ff4b217ee6929a1502f5341bae28fd120acf7260
 
   - name: pillow
     buildsystem: simple
@@ -108,24 +108,6 @@ modules:
       - type: archive
         url: https://github.com/python-pillow/Pillow/archive/5.3.0.tar.gz
         sha256: 9de4853d8b640c0185665735a1c3266b6d51636b3a3d8e3ea7876c485194b6e1
-
-  - name: pycairo
-    buildsystem: simple
-    build-commands:
-      - python3 setup.py install --prefix=/app
-    sources:
-      - type: archive
-        url: https://pypi.python.org/packages/ef/97/b33dc533ea6076d4ea9cbd2fe049a2b4a3df5c5b6fba9a182616f6f8d310/pycairo-1.15.4.tar.gz
-        sha256: ee4c3068c048230e5ce74bb8994a024711129bde1af1d76e3276c7acd81c4357
-
-  - name: pygobject
-    buildsystem: meson
-    config-opts:
-      - -Dpython=python3
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.5.tar.xz
-        sha256: 9deeac63e0d834646221cf37404d2fdfb3eac6d49aa50133ef9ac38f09ff2bfd
 
   - name: swig
     config-opts:
@@ -235,4 +217,3 @@ modules:
         url: https://github.com/jliljebl/flowblade.git
         tag: v2.8.0.3
         commit: 192575f6985190f7f36c1d555704444d266a5e88
-
