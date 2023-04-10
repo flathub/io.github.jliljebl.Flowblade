@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
 default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '42'
+runtime-version: '44'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -18,14 +18,14 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '21.08'
+    version: '22.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.Plugins.swh:
     directory: extensions/Plugins/swh
-    version: '21.08'
+    version: '22.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -95,8 +95,8 @@ modules:
       - /share/doc
     sources:
       - type: archive
-        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.16.tar.gz
-        sha256: 11238f1d86c995d8aed2e22f04a1e3779f0d70e587caffeab4857f3c662ed5a4
+        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
+        sha256: 92bdd1e68b45596c833307a5ff4b217ee6929a1502f5341bae28fd120acf7260
 
   - name: pillow
     buildsystem: simple
@@ -108,24 +108,6 @@ modules:
       - type: archive
         url: https://github.com/python-pillow/Pillow/archive/5.3.0.tar.gz
         sha256: 9de4853d8b640c0185665735a1c3266b6d51636b3a3d8e3ea7876c485194b6e1
-
-  - name: pycairo
-    buildsystem: simple
-    build-commands:
-      - python3 setup.py install --prefix=/app
-    sources:
-      - type: archive
-        url: https://pypi.python.org/packages/ef/97/b33dc533ea6076d4ea9cbd2fe049a2b4a3df5c5b6fba9a182616f6f8d310/pycairo-1.15.4.tar.gz
-        sha256: ee4c3068c048230e5ce74bb8994a024711129bde1af1d76e3276c7acd81c4357
-
-  - name: pygobject
-    buildsystem: meson
-    config-opts:
-      - -Dpython=python3
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/pygobject/3.30/pygobject-3.30.5.tar.xz
-        sha256: 9deeac63e0d834646221cf37404d2fdfb3eac6d49aa50133ef9ac38f09ff2bfd
 
   - name: swig
     config-opts:
@@ -178,27 +160,14 @@ modules:
   - name: numpy
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/lib/python3.9/site-packages
-      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.9/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+      - mkdir -p /app/lib/python3.10/site-packages
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.10/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
     cleanup:
       - /bin
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
-        sha256: f58913e9227400f1395c7b800503ebfdb0772f1c33ff8cb4d6451c06cabdf316
-
-  - name: jack2
-    buildsystem: simple
-    build-commands:
-      - ./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic
-      - ./waf build -j $FLATPAK_BUILDER_N_JOBS
-      - ./waf install
-    cleanup:
-      - '*'
-    sources:
-      - type: archive
-        url: https://github.com/jackaudio/jack2/releases/download/v1.9.14/v1.9.14.tar.gz
-        sha256: a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c
+        url: https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip
+        sha256: ecb55251139706669fdec2ff073c98ef8e9a84473e51e716211b41aa0f18e656
 
   - name: gmic
     buildsystem: cmake-ninja
@@ -223,8 +192,8 @@ modules:
         PYTHON: python3
       cxxflags: -L/app/lib
     post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.9/site-packages/mlt.py
-      - install src/swig/python/_mlt.so /app/lib/python3.9/site-packages/_mlt.so
+      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.10/site-packages/mlt.py
+      - install -D src/swig/python/_mlt.so /app/lib/python3.10/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
@@ -236,7 +205,7 @@ modules:
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade --root=/
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
@@ -246,6 +215,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        branch: 2-8-fix-relese
+        tag: v2.8.0.3
         commit: 192575f6985190f7f36c1d555704444d266a5e88
-
