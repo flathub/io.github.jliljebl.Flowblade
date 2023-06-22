@@ -39,6 +39,8 @@ cleanup:
   - /share/pkgconfig
   - '*.a'
   - '*.la'
+cleanup-commands:
+  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.10/site-packages/mlt7.py"
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
@@ -72,11 +74,11 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_BUILD_TYPE=Release
     sources:
-      - type: archive
-        url: https://files.dyne.org/frei0r/releases/frei0r-plugins-1.7.0.tar.gz
-        sha256: 1b1ff8f0f9bc23eed724e94e9a7c1d8f0244bfe33424bb4fe68e6460c088523a
+      - type: git
+        url: https://github.com/dyne/frei0r.git
+        commit: 2c45f1f09398d6242f166eb05b156021594bc3e5
 
   - name: sox
     config-opts:
@@ -136,26 +138,107 @@ modules:
         url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
         sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
 
+  - name: 'x265'
+    buildsystem: cmake-ninja
+    builddir: true
+    subdir: source
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DENABLE_CLI=OFF
+    sources:
+      - type: archive
+        url: https://deb.debian.org/debian/pool/main/x/x265/x265_3.5.orig.tar.gz
+        sha256: e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8
+
+  - name: nv-codec-headers
+    cleanup:
+      - '*'
+    no-autogen: true
+    make-install-args:
+      - PREFIX=/app
+    sources:
+      - type: git
+        url: https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+        commit: b641a195edbe3ac9788e681e22c2e2fad8aacddb
+        tag: n11.1.5.0
+
+  - name: 'aom'
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/app
+      - -DBUILD_SHARED_LIBS=1
+      - -DENABLE_DOCS=0
+      - -DENABLE_EXAMPLES=0
+      - -DENABLE_TESTDATA=0
+      - -DENABLE_TESTS=0
+      - -DENABLE_TOOLS=0
+    sources:
+      - type: git
+        url: https://aomedia.googlesource.com/aom.git
+        commit: 287164de79516c25c8c84fd544f67752c170082a
+        tag: v3.2.0
+
+  - name: amf-headers
+    buildsystem: simple
+    build-commands:
+      - cp -av amf/public/include/. /app/include/AMF
+    sources:
+      - type: archive
+        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz
+        sha256: 7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a
+
+  - name: mediasdk
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_SAMPLES=OFF
+      - -DBUILD_TESTS=OFF
+      - -DBUILD_TOOLS=OFF
+      - -DBUILD_TESTS=OFF
+      - -DMFX_ENABLE_SW_FALLBACK=OFF
+    sources:
+      - type: archive
+        url: https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz
+        sha256: 3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c
+
+  - name: zimg
+    buildsystem: autotools
+    sources:
+      - type: archive
+        url: https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz
+        sha256: 5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7
+                    
   - name: ffmpeg
     config-opts:
       - --enable-gpl
       - --disable-static
       - --enable-shared
       - --disable-doc
-      - --disable-programs
       - --enable-libfontconfig
       - --enable-libfreetype
       - --enable-libopus
       - --enable-librsvg
       - --enable-libvpx
       - --enable-libx264
+      - --enable-libx265
+      - --enable-libpulse
       - --enable-libmp3lame
+      - --enable-libvorbis
+      - --enable-libaom
+      - --enable-vaapi
+      - --enable-ffnvcodec
+      - --enable-nvenc
+      - --enable-amf
+      - --enable-libzimg
     cleanup:
       - /share/ffmpeg
     sources:
       - type: archive
-        url: https://www.ffmpeg.org/releases/ffmpeg-4.2.1.tar.xz
-        sha256: cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4
+        url: https://www.ffmpeg.org/releases/ffmpeg-5.1.1.tar.xz
+        sha256: 95bf3ff8c496511e71e958fb249e663c8c9c3de583c5bebc0f5a9745abbc0435
 
   - name: numpy
     buildsystem: simple
@@ -183,23 +266,24 @@ modules:
         sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
 
   - name: mlt
+    buildsystem: cmake-ninja
     config-opts:
-      - --enable-gpl
-      - --enable-gpl3
-      - --swig-languages=python
+      - -DSWIG_PYTHON=ON
+      - -DMOD_GLAXNIMATE_QT6=OFF
+      - -DMOD_GLAXNIMATE=OFF
+      - -DMOD_QT=OFF
+      - -DMOD_QT6=OFF
+      - -DMOD_MOVIT=OFF
     build-options:
       env:
         PYTHON: python3
       cxxflags: -L/app/lib
-    post-install:
-      - install -Dm644 src/swig/python/mlt.py /app/lib/python3.10/site-packages/mlt.py
-      - install -D src/swig/python/_mlt.so /app/lib/python3.10/site-packages/_mlt.so
     cleanup:
       - /bin
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 902c4c2d82514e812b3129a0aa3146a89bb898ec
+        commit: 00c6b900b8a9743209e57f7ca23cc5a876521a16
 
   - name: flowblade
     buildsystem: simple
@@ -215,5 +299,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        tag: v2.8.0.3
-        commit: 192575f6985190f7f36c1d555704444d266a5e88
+        tag: v2.10
+        commit: 83c95750ba94d64221214ad9c75b42b1446f17a3
