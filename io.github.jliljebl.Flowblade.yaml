@@ -192,6 +192,8 @@ modules:
   - name: mediasdk
     buildsystem: cmake-ninja
     builddir: true
+    only-arches:
+      - x86_64
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DBUILD_SAMPLES=OFF
