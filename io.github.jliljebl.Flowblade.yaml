@@ -12,7 +12,6 @@ finish-args:
   - --filesystem=host
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/lib/ladspa
-  - --own-name=flowblade.movie.editor.batchrender
   - --talk-name=org.freedesktop.Flatpak
 
 add-extensions:
@@ -78,7 +77,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/dyne/frei0r.git
-        commit: 2c45f1f09398d6242f166eb05b156021594bc3e5
+        commit: 49f759d9e153a4e2850127e368f7aa6f40d59aaf
 
   - name: sox
     config-opts:
@@ -91,14 +90,6 @@ modules:
         sha256: 81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c
         mirror-urls:
           - http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2
-
-  - name: dbus-python
-    cleanup:
-      - /share/doc
-    sources:
-      - type: archive
-        url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
-        sha256: 92bdd1e68b45596c833307a5ff4b217ee6929a1502f5341bae28fd120acf7260
 
   - name: pillow
     buildsystem: simple
@@ -203,8 +194,8 @@ modules:
       - -DMFX_ENABLE_SW_FALLBACK=OFF
     sources:
       - type: archive
-        url: https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz
-        sha256: 3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c
+        url: https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-22.5.4.tar.gz
+        sha256: 0eb04409a226da6e752576d60c46a3ec969ddfe03042897088367392207c7ab3
 
   - name: zimg
     buildsystem: autotools
@@ -285,7 +276,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 00c6b900b8a9743209e57f7ca23cc5a876521a16
+        commit: 59feb5e7cb83ad4aa1868013c0a1ba876d40576e
 
   - name: flowblade
     buildsystem: simple
@@ -301,5 +292,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        tag: v2.10.0.4
-        commit: 1eec144441a61e95f687d96ae804d6961010d10b
+        tag: v2.12
+        commit: 57e29acf656de5890b6ecb3822aa4e2f8cfe7e02
