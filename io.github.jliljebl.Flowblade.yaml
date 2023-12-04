@@ -196,6 +196,8 @@ modules:
       - type: archive
         url: https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-22.5.4.tar.gz
         sha256: 0eb04409a226da6e752576d60c46a3ec969ddfe03042897088367392207c7ab3
+      - type: patch
+        path: mediasdk-fix-mfxparser-build.patch
 
   - name: zimg
     buildsystem: autotools
