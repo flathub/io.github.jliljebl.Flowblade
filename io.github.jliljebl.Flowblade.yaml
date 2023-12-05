@@ -60,8 +60,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2
-        sha256: 685adf14bd8e9c015b78097c1dc22f2f01343756f196acdc76a678e1ae352e11
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2
+        sha256: b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626
 
   - name: gavl
     rm-configure: true
@@ -107,8 +107,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/python-pillow/Pillow/archive/5.3.0.tar.gz
-        sha256: 9de4853d8b640c0185665735a1c3266b6d51636b3a3d8e3ea7876c485194b6e1
+        url: https://github.com/python-pillow/Pillow/archive/10.1.0.tar.gz
+        sha256: 39ca46877a38414abd0c7ab15ee885b72efd884c4a43f5a82697685917b7704c
 
   - name: swig
     config-opts:
@@ -120,10 +120,10 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz
-        sha256: 7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d
+        url: https://sourceforge.net/projects/swig/files/swig/swig-4.1.0/swig-4.1.0.tar.gz
+        sha256: d6a9a8094e78f7cfb6f80a73cc271e1fe388c8638ed22668622c2c646df5bb3d
         mirror-urls:
-          - http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
+          - http://http.debian.net/debian/pool/main/s/swig/swig_4.1.0.orig.tar.gz
 
   - shared-modules/linux-audio/fftw3f.json
   - shared-modules/linux-audio/ladspa.json
@@ -134,8 +134,8 @@ modules:
       - --enable-shared
     sources:
       - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
-        sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2
+        sha256: b2495c8f2930167d470994b1ce02b0f4bfb24b3317ba36ba7f112e9809264160
 
   - name: 'x265'
     buildsystem: cmake-ninja
@@ -158,8 +158,8 @@ modules:
     sources:
       - type: git
         url: https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-        commit: b641a195edbe3ac9788e681e22c2e2fad8aacddb
-        tag: n11.1.5.0
+        commit: 1889e62e2d35ff7aa9baca2bceb14f053785e6f1
+        tag: n12.1.14.0
 
   - name: 'aom'
     buildsystem: cmake-ninja
@@ -176,8 +176,8 @@ modules:
     sources:
       - type: git
         url: https://aomedia.googlesource.com/aom.git
-        commit: 287164de79516c25c8c84fd544f67752c170082a
-        tag: v3.2.0
+        commit: bab1dd380ca72c93b8fb0de09dc86ca586b3644f
+        tag: v3.7.1
 
   - name: amf-headers
     buildsystem: simple
@@ -185,8 +185,8 @@ modules:
       - cp -av amf/public/include/. /app/include/AMF
     sources:
       - type: archive
-        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz
-        sha256: 7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a
+        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.30.tar.gz
+        sha256: 4a9d43c730a76df6636932cee007917409d5b3607b61cecdf6dfab410f7b5f1d
 
   - name: mediasdk
     buildsystem: cmake-ninja
@@ -211,8 +211,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        url: https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz
-        sha256: 5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7
+        url: https://github.com/sekrit-twc/zimg/archive/release-3.0.5.tar.gz
+        sha256: a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf
                     
   - name: numpy
     buildsystem: simple
@@ -223,8 +223,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip
-        sha256: ecb55251139706669fdec2ff073c98ef8e9a84473e51e716211b41aa0f18e656
+        url: https://files.pythonhosted.org/packages/dd/2b/205ddff2314d4eea852e31d53b8e55eb3f32b292efc3dd86bd827ab9019d/numpy-1.26.2.tar.gz
+        sha256: f65738447676ab5777f11e6bbbdb8ce11b785e105f690bc45966574816b6d3ea
 
   - name: gmic
     buildsystem: cmake-ninja
@@ -236,8 +236,8 @@ modules:
       - -DBUILD_BASH_COMPLETION=OFF
     sources:
       - type: archive
-        url: https://gmic.eu/files/source/gmic_2.4.5.tar.gz
-        sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
+        url: https://gmic.eu/files/source/gmic_3.3.2.tar.gz
+        sha256: d95ead2339c552378cef2947e844d5ec247f3a8485471786395aee10f566f868
 
   - name: mlt
     buildsystem: cmake-ninja
@@ -257,7 +257,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 59feb5e7cb83ad4aa1868013c0a1ba876d40576e
+        commit: 4b427bfa708db50eb0a3d840c6f83b71269f7e41
 
   - name: flowblade
     buildsystem: simple
