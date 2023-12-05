@@ -47,7 +47,7 @@ cleanup:
   - '*.a'
   - '*.la'
 cleanup-commands:
-  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.10/site-packages/mlt7.py"
+  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.11/site-packages/mlt7.py"
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
@@ -217,8 +217,8 @@ modules:
   - name: numpy
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/lib/python3.10/site-packages
-      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.10/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+      - mkdir -p /app/lib/python3.11/site-packages
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.11/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
     cleanup:
       - /bin
     sources:
