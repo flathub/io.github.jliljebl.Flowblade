@@ -13,9 +13,6 @@ finish-args:
   - --env=FREI0R_PATH=/app/lib/frei0r-1
   - --env=LADSPA_PATH=/app/extensions/Plugins/ladspa:/app/lib/ladspa
   - --talk-name=org.freedesktop.Flatpak
-cleanup-commands:
-  - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
-
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
@@ -267,6 +264,7 @@ modules:
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
+      - install -d /app/lib/ffmpeg
     cleanup:
       - /lib/mime
       - /share/pixmaps
