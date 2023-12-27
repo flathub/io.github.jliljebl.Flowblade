@@ -292,5 +292,5 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        tag: v2.12
-        commit: 57e29acf656de5890b6ecb3822aa4e2f8cfe7e02
+        tag: v2.12.0.2
+        commit: 743fcc0492f481d51a5ce8c503bb9e5b071a5255
