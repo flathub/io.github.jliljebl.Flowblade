@@ -1,7 +1,7 @@
 app-id: io.github.jliljebl.Flowblade
 default-branch: stable
 runtime: org.gnome.Platform
-runtime-version: '44'
+runtime-version: '45'
 sdk: org.gnome.Sdk
 command: flowblade
 finish-args:
@@ -17,14 +17,14 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '22.08'
+    version: '23.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.Plugins.swh:
     directory: extensions/Plugins/swh
-    version: '22.08'
+    version: '23.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -39,7 +39,7 @@ cleanup:
   - '*.a'
   - '*.la'
 cleanup-commands:
-  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.10/site-packages/mlt7.py"
+  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.11/site-packages/mlt7.py"
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
@@ -52,8 +52,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2
-        sha256: 685adf14bd8e9c015b78097c1dc22f2f01343756f196acdc76a678e1ae352e11
+        url: https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2
+        sha256: b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626
 
   - name: gavl
     rm-configure: true
@@ -77,7 +77,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/dyne/frei0r.git
-        commit: 49f759d9e153a4e2850127e368f7aa6f40d59aaf
+        commit: e8595c6cd2c8010921777de6706158b5f70472ce
 
   - name: sox
     config-opts:
@@ -99,9 +99,28 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/python-pillow/Pillow/archive/5.3.0.tar.gz
-        sha256: 9de4853d8b640c0185665735a1c3266b6d51636b3a3d8e3ea7876c485194b6e1
+        url: https://github.com/python-pillow/Pillow/archive/refs/tags/10.2.0.tar.gz
+        sha256: fe695f6fa8bbc341b9044b6553a32d84cf6d6ea0de104396aece85e454c7cbc2 
 
+  - name: usb1
+    buildsystem: simple
+    build-commands:
+      - python3 setup.py install --prefix=/app --root=/
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: https://github.com/vpelletier/python-libusb1/releases/download/3.1.0/libusb1-3.1.0.tar.gz
+        sha256: 4ee9b0a55f8bd0b3ea7017ae919a6c1f439af742c4a4b04543c5fd7af89b828c
+
+  - name: usbrules
+    buildsystem: simple
+    build-commands:
+      - install -D 90-flowblade.rules /app/etc/udev/rules.d/90-flowblade.rules
+    sources:
+      - type: file
+        path: 90-flowblade.rules
+        
   - name: swig
     config-opts:
       - --without-alllang
@@ -112,10 +131,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz
-        sha256: 7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d
-        mirror-urls:
-          - http://http.debian.net/debian/pool/main/s/swig/swig_3.0.12.orig.tar.gz
+        url: https://sourceforge.net/projects/swig/files/swig/swig-4.2.1/swig-4.2.1.tar.gz
+        sha256: fa045354e2d048b2cddc69579e4256245d4676894858fcf0bab2290ecf59b7d8
 
   - shared-modules/linux-audio/fftw3f.json
   - shared-modules/linux-audio/ladspa.json
@@ -150,8 +167,8 @@ modules:
     sources:
       - type: git
         url: https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-        commit: b641a195edbe3ac9788e681e22c2e2fad8aacddb
-        tag: n11.1.5.0
+        commit: 43d91706e097565f57b311e567f0219838bcc2f6
+        tag: n11.1.5.3
 
   - name: 'aom'
     buildsystem: cmake-ninja
@@ -168,8 +185,8 @@ modules:
     sources:
       - type: git
         url: https://aomedia.googlesource.com/aom.git
-        commit: 287164de79516c25c8c84fd544f67752c170082a
-        tag: v3.2.0
+        commit: 615b5f541e4434aebd993036bc97ebc1a77ebc25
+        tag: v3.8.2
 
   - name: amf-headers
     buildsystem: simple
@@ -177,10 +194,10 @@ modules:
       - cp -av amf/public/include/. /app/include/AMF
     sources:
       - type: archive
-        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz
-        sha256: 7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a
+        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.33.tar.gz
+        sha256: 86b39d5bd4652338bf7b4e48efec58472bb57a985250bc149e7908534a915c8e
 
-  - name: mediasdk
+  - name: intel-onevpl-runtime
     buildsystem: cmake-ninja
     builddir: true
     only-arches:
@@ -191,18 +208,22 @@ modules:
       - -DBUILD_TESTS=OFF
       - -DBUILD_TOOLS=OFF
       - -DBUILD_TESTS=OFF
-      - -DMFX_ENABLE_SW_FALLBACK=OFF
     sources:
       - type: archive
-        url: https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-22.5.4.tar.gz
-        sha256: 0eb04409a226da6e752576d60c46a3ec969ddfe03042897088367392207c7ab3
+        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.1.5.tar.gz
+        sha256: e006d59399dbd0c3b3ecd91610822d655e9303b25a385a9a3ac94a42bf34b284
+        x-checker-data:
+          type: anitya
+          project-id: 368736
+          stable-only: true
+          url-template: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-$version.tar.gz
 
   - name: zimg
     buildsystem: autotools
     sources:
       - type: archive
-        url: https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz
-        sha256: 5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7
+        url: https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.5.tar.gz
+        sha256: a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf
                     
   - name: ffmpeg
     config-opts:
@@ -230,8 +251,8 @@ modules:
       - /share/ffmpeg
     sources:
       - type: archive
-        url: https://www.ffmpeg.org/releases/ffmpeg-5.1.1.tar.xz
-        sha256: 95bf3ff8c496511e71e958fb249e663c8c9c3de583c5bebc0f5a9745abbc0435
+        url: https://www.ffmpeg.org/releases/ffmpeg-6.1.1.tar.xz
+        sha256: 8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968
 
   - name: numpy
     buildsystem: simple
@@ -242,8 +263,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip
-        sha256: ecb55251139706669fdec2ff073c98ef8e9a84473e51e716211b41aa0f18e656
+        url: https://files.pythonhosted.org/packages/65/6e/09db70a523a96d25e115e71cc56a6f9031e7b8cd166c1ac8438307c14058/numpy-1.26.4.tar.gz
+        sha256: 2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010
 
   - name: gmic
     buildsystem: cmake-ninja
@@ -255,8 +276,8 @@ modules:
       - -DBUILD_BASH_COMPLETION=OFF
     sources:
       - type: archive
-        url: https://gmic.eu/files/source/gmic_2.4.5.tar.gz
-        sha256: e87efa20abdedf5e0000c490669d76c8a8d16a9fafa27bc9e31b79b5cbc3277f
+        url: https://gmic.eu/files/source/gmic_2.9.8.tar.gz
+        sha256: 18d6bbc731ae3b4da8a656ac189476793b111a9dd19f72db2312f074df7cdc82
 
   - name: mlt
     buildsystem: cmake-ninja
@@ -276,7 +297,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 59feb5e7cb83ad4aa1868013c0a1ba876d40576e
+        commit: 579a55904e9ef7cde538edb6446de29d109e79e1
 
   - name: flowblade
     buildsystem: simple
@@ -292,5 +313,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        tag: v2.12.0.2
-        commit: 743fcc0492f481d51a5ce8c503bb9e5b071a5255
+        commit: 6ffcf4e6dc1a4aef3f3aec73c4fb63cc19b48bc7
