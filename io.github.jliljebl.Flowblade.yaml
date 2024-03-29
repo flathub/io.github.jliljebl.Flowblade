@@ -39,7 +39,8 @@ cleanup:
   - '*.a'
   - '*.la'
 cleanup-commands:
-  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.11/site-packages/mlt7.py"
+  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def\
+    \ get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.11/site-packages/mlt7.py"
 modules:
   - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
@@ -67,7 +68,7 @@ modules:
         sha256: 51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce
       - type: shell
         commands:
-        - cp -p /usr/share/automake-*/config.{sub,guess} .
+          - cp -p /usr/share/automake-*/config.{sub,guess} .
 
   - name: frei0r-plugins
     buildsystem: cmake-ninja
@@ -100,7 +101,7 @@ modules:
     sources:
       - type: archive
         url: https://github.com/python-pillow/Pillow/archive/refs/tags/10.2.0.tar.gz
-        sha256: fe695f6fa8bbc341b9044b6553a32d84cf6d6ea0de104396aece85e454c7cbc2 
+        sha256: fe695f6fa8bbc341b9044b6553a32d84cf6d6ea0de104396aece85e454c7cbc2
 
   - name: usb1
     buildsystem: simple
@@ -120,7 +121,7 @@ modules:
     sources:
       - type: file
         path: 90-flowblade.rules
-        
+
   - name: swig
     config-opts:
       - --without-alllang
@@ -137,7 +138,7 @@ modules:
   - shared-modules/linux-audio/fftw3f.json
   - shared-modules/linux-audio/ladspa.json
 
-  - name: 'x264'
+  - name: x264
     config-opts:
       - --disable-cli
       - --enable-shared
@@ -146,7 +147,7 @@ modules:
         url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
         sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
 
-  - name: 'x265'
+  - name: x265
     buildsystem: cmake-ninja
     builddir: true
     subdir: source
@@ -170,7 +171,7 @@ modules:
         commit: 43d91706e097565f57b311e567f0219838bcc2f6
         tag: n11.1.5.3
 
-  - name: 'aom'
+  - name: aom
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
@@ -210,8 +211,8 @@ modules:
       - -DBUILD_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.1.5.tar.gz
-        sha256: e006d59399dbd0c3b3ecd91610822d655e9303b25a385a9a3ac94a42bf34b284
+        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.0.tar.gz
+        sha256: 34438637670b13140153c8a6be6b32d755ba72f68b2bbb01a8ec630c3e453900
         x-checker-data:
           type: anitya
           project-id: 368736
@@ -224,7 +225,7 @@ modules:
       - type: archive
         url: https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.5.tar.gz
         sha256: a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf
-                    
+
   - name: ffmpeg
     config-opts:
       - --enable-gpl
@@ -258,7 +259,9 @@ modules:
     buildsystem: simple
     build-commands:
       - mkdir -p /app/lib/python3.10/site-packages
-      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.10/' CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install --prefix=/app
+      - CFLAGS='-L/usr/lib -Lbuild/temp.linux-x86_64-3.4 -I/usr/include -I/usr/include/python3.10/'
+        CXX=/usr/bin/g++ CC=/usr/bin/gcc PYTHONUSERBASE=/app/ python3 setup.py install
+        --prefix=/app
     cleanup:
       - /bin
     sources:
@@ -303,7 +306,8 @@ modules:
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade --root=/
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
+        --root=/
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
