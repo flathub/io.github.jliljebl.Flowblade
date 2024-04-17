@@ -46,7 +46,7 @@ modules:
   - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libusb/libusb.json
- 
+
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
@@ -212,8 +212,8 @@ modules:
       - -DBUILD_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.0.tar.gz
-        sha256: 34438637670b13140153c8a6be6b32d755ba72f68b2bbb01a8ec630c3e453900
+        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.1.tar.gz
+        sha256: b261d87d91a56a6a462f6a129ddd97945a49637995ee6aa67ebd9b26c0a3c1a0
         x-checker-data:
           type: anitya
           project-id: 368736
