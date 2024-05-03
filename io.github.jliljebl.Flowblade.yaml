@@ -212,8 +212,8 @@ modules:
       - -DBUILD_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.1.tar.gz
-        sha256: b261d87d91a56a6a462f6a129ddd97945a49637995ee6aa67ebd9b26c0a3c1a0
+        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.2.tar.gz
+        sha256: fc83bdea13a176812744e4c4c731b2387f03eafaa7375816a60555718a2b4dce
         x-checker-data:
           type: anitya
           project-id: 368736
