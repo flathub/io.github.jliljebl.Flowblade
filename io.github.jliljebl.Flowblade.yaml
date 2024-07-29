@@ -309,8 +309,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/opencv/opencv/archive/4.10.0.tar.gz
-        sha256: b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9
+        url: https://github.com/opencv/opencv/archive/4.10.0-kleidicv.tar.gz
+        sha256: 05f7088b8776b7e9f5f32edb7d5adfc0056a1321afaec0ef8b57917884a0f93a
         x-checker-data:
           type: anitya
           project-id: 6615
