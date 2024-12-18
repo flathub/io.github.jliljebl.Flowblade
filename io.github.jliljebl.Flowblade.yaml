@@ -79,7 +79,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/dyne/frei0r.git
-        commit: e8595c6cd2c8010921777de6706158b5f70472ce
+        commit: 9178c72e59112c40b6b45a54c03e47c245b80cdd
 
   - name: sox
     config-opts:
@@ -305,6 +305,16 @@ modules:
       - -DCMAKE_BUILD_TYPE=Release
       - -DOPENCV_GENERATE_PKGCONFIG=ON
       - -DBUILD_LIST=tracking,dnn
+      - -DBUILD_WITH_DEBUG_INFO=OFF
+      - -DBUILD_TESTS=OFF
+      - -DBUILD_PERF_TESTS=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DINSTALL_C_EXAMPLES=OFF
+      - -DINSTALL_PYTHON_EXAMPLES=OFF
+      - -DWITH_1394=OFF
+      - -DWITH_V4L=OFF
+      - -DWITH_PROTOBUF=OFF
+      - -DWITH_CAROTENE=OFF
     cleanup:
       - /bin
     sources:
@@ -337,6 +347,18 @@ modules:
           stable-only: true
           url-template: https://breakfastquay.com/files/releases/rubberband-$version.tar.bz2
 
+  - name: sdl2
+    buildsystem: autotools
+    cleanup:
+      - /include
+      - /lib/*.la
+      - /lib/*.a
+      - /lib/pkgconfig
+    sources:
+      - type: archive
+        url: https://github.com/libsdl-org/SDL/releases/download/release-2.30.10/SDL2-2.30.10.tar.gz
+        sha256: f59adf36a0fcf4c94198e7d3d776c1b3824211ab7aeebeb31fe19836661196aa
+
   - name: mlt
     buildsystem: cmake-ninja
     config-opts:
@@ -347,6 +369,8 @@ modules:
       - -DMOD_QT6=OFF
       - -DMOD_MOVIT=OFF
       - -DMOD_OPENCV=ON
+      - -DMOD_SDL2=ON
+      - -DUSE_VST2=OFF
     build-options:
       env:
         PYTHON: python3
@@ -356,7 +380,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 579a55904e9ef7cde538edb6446de29d109e79e1
+        commit: bddc2c30730d93821c1fd9c209a278d4798e42aa
 
   - name: flowblade
     buildsystem: simple
@@ -373,4 +397,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: 85d86ca23c97d19356bad5a0f8f7a53934ab18d0
+        commit: 13736f8e5882a469a0f794d8e81da9db4741ed80
