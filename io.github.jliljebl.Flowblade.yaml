@@ -227,8 +227,8 @@ modules:
       - -DBUILD_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.3.0.tar.gz
-        sha256: 02b01dd73f7c5a4a46860ec01470b484286709cc13f9333a34a089d7e457295e
+        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-25.1.0.tar.gz
+        sha256: f2f2fba823c885cdd847af646e5639d657e411e0afeff4667b73eb6e524b0dc4
         x-checker-data:
           type: anitya
           project-id: 368736
@@ -319,16 +319,16 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/opencv/opencv/archive/4.10.0-kleidicv.tar.gz
-        sha256: 05f7088b8776b7e9f5f32edb7d5adfc0056a1321afaec0ef8b57917884a0f93a
+        url: https://github.com/opencv/opencv/archive/4.11.0.tar.gz
+        sha256: 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
         x-checker-data:
           type: anitya
           project-id: 6615
           stable-only: true
           url-template: https://github.com/opencv/opencv/archive/$version.tar.gz
       - type: archive
-        url: https://github.com/opencv/opencv_contrib/archive/4.10.0.tar.gz
-        sha256: 65597f8fb8dc2b876c1b45b928bbcc5f772ddbaf97539bf1b737623d0604cba1
+        url: https://github.com/opencv/opencv_contrib/archive/4.11.0.tar.gz
+        sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
         x-checker-data:
           type: anitya
           project-id: 6615
@@ -339,8 +339,8 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://breakfastquay.com/files/releases/rubberband-3.3.0.tar.bz2
-        sha256: d9ef89e2b8ef9f85b13ac3c2faec30e20acf2c9f3a9c8c45ce637f2bc95e576c
+        url: https://breakfastquay.com/files/releases/rubberband-4.0.0.tar.bz2
+        sha256: af050313ee63bc18b35b2e064e5dce05b276aaf6d1aa2b8a82ced1fe2f8028e9
         x-checker-data:
           type: anitya
           project-id: 4222
