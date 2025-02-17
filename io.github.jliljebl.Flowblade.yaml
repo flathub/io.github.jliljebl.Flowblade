@@ -392,4 +392,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: 13736f8e5882a469a0f794d8e81da9db4741ed80
+        commit: 8bede966fa66c526ec97d35254cca75704799e58
