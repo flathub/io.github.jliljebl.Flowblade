@@ -17,14 +17,14 @@ finish-args:
 add-extensions:
   org.freedesktop.LinuxAudio.Plugins:
     directory: extensions/Plugins
-    version: '23.08'
+    version: '24.08'
     add-ld-path: lib
     merge-dirs: ladspa
     subdirectories: true
     no-autodownload: true
   org.freedesktop.LinuxAudio.Plugins.swh:
     directory: extensions/Plugins/swh
-    version: '23.08'
+    version: '24.08'
     add-ld-path: lib
     merge-dirs: ladspa
     autodelete: false
@@ -38,11 +38,7 @@ cleanup:
   - /share/pkgconfig
   - '*.a'
   - '*.la'
-cleanup-commands:
-  - "sed -i -e 's/def get_image(\\*args): return _mlt\\.frame_get_image(\\*args)/def\
-    \ get_image(\\*args): return _mlt7\\.frame_get_image(\\*args)/g' /app/lib/python3.11/site-packages/mlt7.py"
 modules:
-  - shared-modules/SDL/SDL-1.2.15.json
   - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib.json
   - shared-modules/libusb/libusb.json
@@ -50,6 +46,8 @@ modules:
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
     cleanup:
       - '*'
     sources:
@@ -57,20 +55,56 @@ modules:
         url: https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2
         sha256: b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626
 
+  - name: fftw-float
+    config-opts:
+      - --disable-doc
+      - --enable-shared
+      - --disable-static
+      - --enable-threads
+      - --enable-float
+    build-options:
+      arch:
+        x86_64:
+          config-opts:
+            - --enable-avx
+            - --enable-openmp
+            - --enable-sse
+        aarch64:
+          config-opts:
+            - --enable-neon
+            - --enable-openmp
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: http://www.fftw.org/fftw-3.3.10.tar.gz
+        sha256: 56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
+
+  - name: zimg
+    buildsystem: autotools
+    sources:
+      - type: archive
+        url: https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.5.tar.gz
+        sha256: a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf
+
   - name: gavl
-    rm-configure: true
     config-opts:
       - --without-doxygen
       - --disable-static
       - --enable-shared
+      - --with-cpuflags=none
     sources:
       - type: archive
-        url: https://downloads.sourceforge.net/project/gmerlin/gavl/1.4.0/gavl-1.4.0.tar.gz
-        sha256: 51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce
+        url: https://salsa.debian.org/multimedia-team/gavl/-/archive/upstream/2.0.0_svngit.20240111.a5dd20c/gavl-upstream-2.0.0_svngit.20240111.a5dd20c.tar.gz
+        sha256: 2d9c62f09d97ef74da5390bec86517549fe0b80c6549e1f2af9312d4c386a099
       - type: shell
         commands:
           - cp -p /usr/share/automake-*/config.{sub,guess} .
-
+      - type: script
+        dest-filename: autogen.sh
+        commands: 
+          - autoreconf -vfi
+  
   - name: frei0r-plugins
     buildsystem: cmake-ninja
     builddir: true
@@ -88,10 +122,12 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/sox/files/sox/14.4.2/sox-14.4.2.tar.bz2
+        url: https://downloads.sourceforge.net/project/sox/sox/14.4.2/sox-14.4.2.tar.bz2
         sha256: 81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c
         mirror-urls:
           - http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2
+      - type: patch
+        path: patches/sox-build.patch
 
   - name: vidstab
     buildsystem: cmake-ninja
@@ -148,8 +184,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/swig/files/swig/swig-4.2.1/swig-4.2.1.tar.gz
-        sha256: fa045354e2d048b2cddc69579e4256245d4676894858fcf0bab2290ecf59b7d8
+        url: https://downloads.sourceforge.net/swig/swig-4.3.0.tar.gz
+        sha256: f7203ef796f61af986c70c05816236cbd0d31b7aa9631e5ab53020ab7804aa9e
 
   - shared-modules/linux-audio/fftw3f.json
   - shared-modules/linux-audio/ladspa.json
@@ -159,16 +195,16 @@ modules:
       - --disable-cli
       - --enable-shared
     sources:
-      - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20190305-2245-stable.tar.bz2
-        sha256: be52c96ef8bd930fbc1ecff03abac9b94976b444ea7641345e08e20d9e594d16
+      - type: git
+        url: https://code.videolan.org/videolan/x264.git
+        commit: 31e19f92f00c7003fa115047ce50978bc98c3a0d
 
   - name: x265
     buildsystem: cmake-ninja
     builddir: true
     subdir: source
     config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DENABLE_CLI=OFF
     sources:
       - type: archive
@@ -230,41 +266,57 @@ modules:
         url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.3.0.tar.gz
         sha256: 02b01dd73f7c5a4a46860ec01470b484286709cc13f9333a34a089d7e457295e
 
-  - name: zimg
-    buildsystem: autotools
+  - name: SVT-AV1
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBUILD_SHARED_LIBS=ON
+      - -DBUILD_TESTING=OFF
+      - -DBUILD_APPS=OFF
+      - -DENABLE_AVX512=ON
     sources:
-      - type: archive
-        url: https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.5.tar.gz
-        sha256: a9a0226bf85e0d83c41a8ebe4e3e690e1348682f6a2a7838f1b8cbff1b799bcf
+      - type: git
+        url: https://gitlab.com/AOMediaCodec/SVT-AV1.git
+        commit: 6e69def4ec283fe0b71195671245c3b768bebdef
+        tag: v2.3.0
 
   - name: ffmpeg
     config-opts:
+      - --enable-rpath
       - --enable-gpl
+      - --enable-version3
       - --disable-static
       - --enable-shared
       - --disable-doc
+      - --disable-alsa
       - --enable-libfontconfig
       - --enable-libfreetype
       - --enable-libopus
+      - --enable-libpulse
       - --enable-librsvg
       - --enable-libvpx
+      - --enable-libdav1d
+      - --enable-libsvtav1
+      - --enable-libxml2
       - --enable-libx264
       - --enable-libx265
-      - --enable-libpulse
       - --enable-libmp3lame
+      - --enable-libtheora
       - --enable-libvorbis
+      - --enable-libwebp
       - --enable-libaom
-      - --enable-vaapi
-      - --enable-ffnvcodec
-      - --enable-nvenc
-      - --enable-amf
       - --enable-libzimg
+      - --disable-decoder=libaom_av1
+      - --enable-nvenc
+      - --enable-vaapi
+      - --disable-vulkan 
     cleanup:
-      - /share/ffmpeg
+      - /share/ffmpeg/examples
     sources:
       - type: archive
-        url: https://www.ffmpeg.org/releases/ffmpeg-6.1.1.tar.xz
-        sha256: 8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968
+        url: https://ffmpeg.org/releases/ffmpeg-7.1.tar.xz
+        sha256: 40973d44970dbc83ef302b0609f2e74982be2d85916dd2ee7472d30678a7abe6
 
   - name: numpy
     buildsystem: simple
@@ -365,6 +417,7 @@ modules:
       - -DMOD_MOVIT=OFF
       - -DMOD_OPENCV=ON
       - -DMOD_SDL2=ON
+      - -DMOD_SDL1=OFF    
       - -DUSE_VST2=OFF
     build-options:
       env:
@@ -375,14 +428,13 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: bddc2c30730d93821c1fd9c209a278d4798e42aa
+        commit: 2b650c65cb5e265864cda8c3eff91945d406c56e
 
   - name: flowblade
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
-        --root=/
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade --root=/
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
@@ -392,4 +444,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: 8bede966fa66c526ec97d35254cca75704799e58
+        commit: 1342c4ccd2ccdf338f775f0117f01b6cf79c3b3f
