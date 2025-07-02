@@ -39,7 +39,7 @@ cleanup:
   - '*.a'
   - '*.la'
 cleanup-commands:
-  - "sed -i -e 's/#!python/#!\\/usr\\/bin\\/python3/g' /app/bin/flowblade"
+  - sed -i -e 's/#!python/#!\/usr\/bin\/python3/g' /app/bin/flowblade
 modules:
   - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib.json
@@ -104,9 +104,9 @@ modules:
           - cp -p /usr/share/automake-*/config.{sub,guess} .
       - type: script
         dest-filename: autogen.sh
-        commands: 
+        commands:
           - autoreconf -vfi
-  
+
   - name: frei0r-plugins
     buildsystem: cmake-ninja
     builddir: true
@@ -312,7 +312,7 @@ modules:
       - --disable-decoder=libaom_av1
       - --enable-nvenc
       - --enable-vaapi
-      - --disable-vulkan 
+      - --disable-vulkan
     cleanup:
       - /share/ffmpeg/examples
     sources:
@@ -368,16 +368,16 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/opencv/opencv/archive/4.11.0.tar.gz
-        sha256: 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
+        url: https://github.com/opencv/opencv/archive/4.12.0.tar.gz
+        sha256: 44c106d5bb47efec04e531fd93008b3fcd1d27138985c5baf4eafac0e1ec9e9d
         x-checker-data:
           type: anitya
           project-id: 6615
           stable-only: true
           url-template: https://github.com/opencv/opencv/archive/$version.tar.gz
       - type: archive
-        url: https://github.com/opencv/opencv_contrib/archive/4.11.0.tar.gz
-        sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
+        url: https://github.com/opencv/opencv_contrib/archive/4.12.0.tar.gz
+        sha256: 4197722b4c5ed42b476d42e29beb29a52b6b25c34ec7b4d589c3ae5145fee98e
         x-checker-data:
           type: anitya
           project-id: 6615
@@ -419,7 +419,7 @@ modules:
       - -DMOD_MOVIT=OFF
       - -DMOD_OPENCV=ON
       - -DMOD_SDL2=ON
-      - -DMOD_SDL1=OFF    
+      - -DMOD_SDL1=OFF
       - -DUSE_VST2=OFF
     build-options:
       env:
@@ -436,7 +436,8 @@ modules:
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade --root=/
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
+        --root=/
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
