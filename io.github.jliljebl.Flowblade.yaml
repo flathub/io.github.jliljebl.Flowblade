@@ -104,7 +104,7 @@ modules:
           - cp -p /usr/share/automake-*/config.{sub,guess} .
       - type: script
         dest-filename: autogen.sh
-        commands: 
+        commands:
           - autoreconf -vfi
   
   - name: frei0r-plugins
@@ -312,7 +312,7 @@ modules:
       - --disable-decoder=libaom_av1
       - --enable-nvenc
       - --enable-vaapi
-      - --disable-vulkan 
+      - --disable-vulkan
     cleanup:
       - /share/ffmpeg/examples
     sources:
@@ -376,8 +376,8 @@ modules:
           stable-only: true
           url-template: https://github.com/opencv/opencv/archive/$version.tar.gz
       - type: archive
-        url: https://github.com/opencv/opencv_contrib/archive/4.11.0.tar.gz
-        sha256: 2dfc5957201de2aa785064711125af6abb2e80a64e2dc246aca4119b19687041
+        url: https://github.com/opencv/opencv_contrib/archive/4.12.0.tar.gz
+        sha256: 4197722b4c5ed42b476d42e29beb29a52b6b25c34ec7b4d589c3ae5145fee98e
         x-checker-data:
           type: anitya
           project-id: 6615
@@ -419,7 +419,7 @@ modules:
       - -DMOD_MOVIT=OFF
       - -DMOD_OPENCV=ON
       - -DMOD_SDL2=ON
-      - -DMOD_SDL1=OFF    
+      - -DMOD_SDL1=OFF
       - -DUSE_VST2=OFF
     build-options:
       env:
@@ -446,4 +446,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: afe12336f1e731f1269726afe77699ecabfea474
+        commit: 044de3e2ad385cade964f79cb462937939762d5a
