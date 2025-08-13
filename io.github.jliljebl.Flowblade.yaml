@@ -39,7 +39,7 @@ cleanup:
   - '*.a'
   - '*.la'
 cleanup-commands:
-  - "sed -i -e 's/#!python/#!\\/usr\\/bin\\/python3/g' /app/bin/flowblade"
+  - sed -i -e 's/#!python/#!\/usr\/bin\/python3/g' /app/bin/flowblade
 modules:
   - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib.json
@@ -106,7 +106,7 @@ modules:
         dest-filename: autogen.sh
         commands:
           - autoreconf -vfi
-  
+
   - name: frei0r-plugins
     buildsystem: cmake-ninja
     builddir: true
@@ -368,8 +368,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/opencv/opencv/archive/4.11.0.tar.gz
-        sha256: 9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f
+        url: https://github.com/opencv/opencv/archive/4.12.0.tar.gz
+        sha256: 44c106d5bb47efec04e531fd93008b3fcd1d27138985c5baf4eafac0e1ec9e9d
         x-checker-data:
           type: anitya
           project-id: 6615
@@ -436,7 +436,8 @@ modules:
     buildsystem: simple
     subdir: flowblade-trunk
     build-commands:
-      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade --root=/
+      - python3 setup.py install --prefix=/app --install-lib=/app/share/flowblade
+        --root=/
     post-install:
       - desktop-file-edit --set-key=Exec --set-value='flowblade %f' /app/share/applications/io.github.jliljebl.Flowblade.desktop
       - install -d /app/extensions/Plugins
