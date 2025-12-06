@@ -430,7 +430,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/mltframework/mlt.git
-        commit: 2b650c65cb5e265864cda8c3eff91945d406c56e
+        commit: c0b1f17beaae309ac20173fba78565650faaf87d
 
   - name: flowblade
     buildsystem: simple
@@ -447,4 +447,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: 044de3e2ad385cade964f79cb462937939762d5a
+        commit: 771df1219d5e22f2b04d779200507c3b839211af
