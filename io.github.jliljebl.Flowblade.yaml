@@ -38,7 +38,6 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:
-  - shared-modules/gtk2/gtk2.json
   - shared-modules/dbus-glib/dbus-glib.json
 
   - name: eigen
