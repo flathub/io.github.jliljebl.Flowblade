@@ -31,6 +31,7 @@ add-extensions:
 
 cleanup:
   - /include
+  - /lib/cmake
   - /lib/pkgconfig
   - /share/aclocal
   - /share/man
@@ -190,23 +191,6 @@ modules:
       - type: patch
         path: patches/x265-cmake.patch
 
-  - name: aom
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_SHARED_LIBS=1
-      - -DENABLE_DOCS=0
-      - -DENABLE_EXAMPLES=0
-      - -DENABLE_TESTDATA=0
-      - -DENABLE_TESTS=0
-      - -DENABLE_TOOLS=0
-    sources:
-      - type: git
-        url: https://aomedia.googlesource.com/aom.git
-        commit: 615b5f541e4434aebd993036bc97ebc1a77ebc25
-        tag: v3.8.2
-
   - name: amf-headers
     buildsystem: simple
     build-commands:
@@ -223,7 +207,6 @@ modules:
       - x86_64
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_SAMPLES=OFF
       - -DBUILD_TESTS=OFF
       - -DBUILD_TOOLS=OFF
       - -DBUILD_TESTS=OFF
@@ -364,6 +347,7 @@ modules:
   - name: sdl2
     buildsystem: autotools
     cleanup:
+      - /bin
       - /include
       - /lib/*.la
       - /lib/*.a
