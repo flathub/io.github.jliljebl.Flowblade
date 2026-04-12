@@ -39,8 +39,6 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:
-  - shared-modules/dbus-glib/dbus-glib.json
-
   - name: eigen
     buildsystem: cmake-ninja
     builddir: true
@@ -395,4 +393,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/jliljebl/flowblade.git
-        commit: 771df1219d5e22f2b04d779200507c3b839211af
+        commit: 90a76f16a97f08d2c0301718e46276cc402ea7f4
