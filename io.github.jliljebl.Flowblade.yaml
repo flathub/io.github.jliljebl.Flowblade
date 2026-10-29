@@ -69,7 +69,8 @@ modules:
     no-autogen: true
     sources:
       - type: archive
-        url: https://salsa.debian.org/multimedia-team/gavl/-/archive/upstream/2.0.0_svngit.20240111.a5dd20c/gavl-upstream-2.0.0_svngit.20240111.a5dd20c.tar.gz
+        url: 
+          https://salsa.debian.org/multimedia-team/gavl/-/archive/upstream/2.0.0_svngit.20240111.a5dd20c/gavl-upstream-2.0.0_svngit.20240111.a5dd20c.tar.gz
         sha256: 2d9c62f09d97ef74da5390bec86517549fe0b80c6549e1f2af9312d4c386a099
       - type: shell
         commands:
@@ -109,8 +110,8 @@ modules:
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
-        url: https://github.com/georgmartius/vid.stab/archive/v1.1.1.tar.gz
-        sha256: 9001b6df73933555e56deac19a0f225aae152abbc0e97dc70034814a1943f3d4
+        url: https://github.com/georgmartius/vid.stab/archive/v1.1.2.tar.gz
+        sha256: 96db34d48a9e3aa13736a48744b56dfb76731ac9bb5193c716de8534c9fd709d
         x-checker-data:
           type: anitya
           project-id: 15959
@@ -138,7 +139,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/vpelletier/python-libusb1/releases/download/3.1.0/libusb1-3.1.0.tar.gz
+        url: 
+          https://github.com/vpelletier/python-libusb1/releases/download/3.1.0/libusb1-3.1.0.tar.gz
         sha256: 4ee9b0a55f8bd0b3ea7017ae919a6c1f439af742c4a4b04543c5fd7af89b828c
 
   - name: usbrules
@@ -210,7 +212,8 @@ modules:
       - -DBUILD_TESTS=OFF
     sources:
       - type: archive
-        url: https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.3.0.tar.gz
+        url: 
+          https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.3.0.tar.gz
         sha256: 02b01dd73f7c5a4a46860ec01470b484286709cc13f9333a34a089d7e457295e
 
   - name: SVT-AV1
@@ -314,16 +317,16 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/opencv/opencv/archive/4.13.0.tar.gz
-        sha256: 1d40ca017ea51c533cf9fd5cbde5b5fe7ae248291ddf2af99d4c17cf8e13017d
+        url: https://github.com/opencv/opencv/archive/5.0.0.tar.gz
+        sha256: b0528f5a1d379d59d4701cb28c36e22214cc51cf64594e5b56f2d3e6c0233095
         x-checker-data:
           type: anitya
           project-id: 6615
           stable-only: true
           url-template: https://github.com/opencv/opencv/archive/$version.tar.gz
       - type: archive
-        url: https://github.com/opencv/opencv_contrib/archive/4.13.0.tar.gz
-        sha256: 1e0077a4fd2960a7d2f4c9e49d6ba7bb891cac2d1be36d7e8e47aa97a9d1039b
+        url: https://github.com/opencv/opencv_contrib/archive/5.0.0.tar.gz
+        sha256: c58f6344170c39abf187c56f3843b59cab1fd3e89cf19ba2ce25dc061659b27f
         x-checker-data:
           type: anitya
           project-id: 6615
@@ -352,7 +355,8 @@ modules:
       - /lib/pkgconfig
     sources:
       - type: archive
-        url: https://github.com/libsdl-org/SDL/releases/download/release-2.32.8/SDL2-2.32.8.tar.gz
+        url: 
+          https://github.com/libsdl-org/SDL/releases/download/release-2.32.8/SDL2-2.32.8.tar.gz
         sha256: 0ca83e9c9b31e18288c7ec811108e58bac1f1bb5ec6577ad386830eac51c787e
 
   - name: mlt
